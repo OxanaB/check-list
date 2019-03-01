@@ -1,0 +1,38 @@
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.css": true,
+        "temp": true,
+    },
+    "files.exclude": {
+        "**/*.css": true,
+        "**/.git": true,
+        "node_modules": true,
+        "scripts": true,
+        "temp": true,
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "[typescriptreact]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "tslint.autoFixOnSave": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.preferences.importModuleSpecifier": "auto",
+    "editor.snippetSuggestions": "bottom",
+    "editor.rulers": [
+        90
+    ],
+    "json.format.enable": true
+}

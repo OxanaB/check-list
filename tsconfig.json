@@ -1,0 +1,21 @@
+{
+    "extends": "../tsconfig.base.json",
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "./scripts",
+        "strict": true,
+        "sourceMap": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "jsx": "react",
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "target": "es2017",
+        "module": "es6",
+        "types": [],
+    }
+}
