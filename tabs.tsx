@@ -9,11 +9,12 @@ export interface TabsProps {
     activeTab: Tab;
     item: string | null;
     itemValue: string;
+    totalWeights: number;
     when: (concern: TabsConcern) => void;
 }
 export class Tabs extends React.Component<TabsProps> {
     render() {
-        const { activeTab, itemValue } = this.props;
+        const { activeTab, itemValue, totalWeights } = this.props;
         const topTabProps: TopTabProps = {
             activeTab,
             when: concern => {
@@ -21,7 +22,7 @@ export class Tabs extends React.Component<TabsProps> {
             },
         };
         const bottomTabProps: BottomTabProps = {
-            activeTab, itemValue,
+            activeTab, itemValue, totalWeights,
             when: concern => {
                 this.props.when(concern);
             },

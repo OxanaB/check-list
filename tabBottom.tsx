@@ -15,30 +15,29 @@ export interface TabSubmitConcern {
 export interface BottomTabProps {
     activeTab: Tab;
     itemValue: string;
+    totalWeights: number;
     when: (concern: BottomTabConcern) => void;
 }
 
 export class BottomTab extends React.Component<BottomTabProps> {
     render() {
-        const { activeTab, itemValue } = this.props;
+        const { activeTab, itemValue, totalWeights } = this.props;
         return <div className="tabs-bottom">
-            <div>{activeTab.data.map(item => {
-                return <form key={item} className="bottom-item"
-                    onChange={e => {
-                        this.props.when({
-                            about: 'tab-input-change',
-                            item,
-                            itemValue: e.currentTarget.value,
-                        });
-                    }}>
-                    <label >
-                        {item}
-                        <input type="string" value={itemValue}
-                            placeholder="0" />
-                    </label>
+            <div>
+                <form className="bottom-item">
+                    {activeTab.data.map(item => {
+                        return <label key={item}>
+                            {item}
+                            <input type="string" value={itemValue} placeholder="0"
+                            />
+                        </label>;
+                    })}
                 </form>;
-            })}
             </div>
+            {activeTab.title === 'Weights'
+                ? <div>Total weigths: {totalWeights}</div>
+                : null
+            }
             <button onSubmit={() => {
                 this.props.when({
                     about: 'tab-on-submit',
