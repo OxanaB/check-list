@@ -1,13 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { countTotalWeights, factorFromItem } from './counting';
+import { Checklist, ChecklistConcern, ChecklistProps } from './checklist';
 import { allTabs } from './data/tabs-data';
-import { Tabs, TabsConcern, TabsProps } from './tabs';
 import { broke, to } from './utils';
 
-class App extends React.Component<{}, TabsProps> {
+class App extends React.Component<{}, ChecklistProps> {
 
-    private when = (concern: TabsConcern): void => {
+    private when = (concern: ChecklistConcern): void => {
         switch (concern.about) {
             case 'tab-choosen': {
                 this.setState({
@@ -16,18 +15,6 @@ class App extends React.Component<{}, TabsProps> {
                 break;
             }
             case 'tab-input-change': {
-                const { item, itemValue } = concern;
-                const { totalWeights, activeTab } = this.state;
-                activeTab.data;
-                const factor = factorFromItem(item);
-                const itemValueToNumber = parseInt(itemValue);
-                const pieses = countWeightPieces(factor, itemValueToNumber);
-                const totalWeightsCounted = countTotalWeights(pieses, totalWeights);
-                this.setState({
-                    item,
-                    itemValue,
-                    totalWeights: totalWeightsCounted,
-                });
                 break;
             }
             case 'tab-on-submit': {
@@ -37,17 +24,16 @@ class App extends React.Component<{}, TabsProps> {
             default: return broke(concern);
         }
     }
-    state = to<TabsProps>({
+    state = to<ChecklistProps>({
         activeTab: allTabs[0],
         item: null,
-        itemValue: '',
         totalWeights: 0,
         when: this.when,
     });
     render() {
         const { state } = this;
         return <>
-            <Tabs {...state} />
+            <Checklist {...state} />
         </>;
     }
 }

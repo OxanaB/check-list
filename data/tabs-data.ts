@@ -1,3 +1,7 @@
+import { Equipment } from 'divemaster-checklist/equipment';
+import { TanksProps } from 'divemaster-checklist/tanks';
+import { Weights } from 'divemaster-checklist/weights';
+
 export interface Tab {
     id: number;
     title: string;
@@ -9,68 +13,46 @@ export interface Field {
     error: string;
 }
 
-export interface Tanks {
-    'air 12L': Field;
-    'air 15L': Field;
-    'nitrox 12L': Field;
-    'nitrox 15L': Field;
-}
-
-export interface Weights {
-    '1 kilo-pieces': Field;
-    '2 kilo-pieces': Field;
-    '3 kilo-pieces': Field;
-}
-
-export interface Equipment {
-    Masks: Field;
-    Snorkels: Field;
-    BCDs: Field;
-    Regulators: Field;
-    Shorty: Field;
-    Fins: Field;
-}
-
-export const tanks: Tanks = {
-    'air 12L': {
+export const tanks: TanksProps [] = {
+    air12L: {
         value: 0,
         text: '',
         error: '',
     },
-    'air 15L': {
+    air15L: {
         value: 0,
         text: '',
         error: '',
     },
-    'nitrox 12L': {
+    nitrox12L: {
         value: 0,
         text: '',
         error: '',
     },
-    'nitrox 15L': {
+    nitrox15L: {
         value: 0,
         text: '',
         error: '',
     },
 };
-export const weights: Weights = {
-    '1 kilo-pieces': {
+export const weights: Weights [] = [{
+    kiloPieces1: {
         value: 0,
         text: '',
         error: '',
     },
-    '2 kilo-pieces': {
+    kiloPieces2: {
         value: 0,
         text: '',
         error: '',
     },
-    '3 kilo-pieces': {
+    kiloPieces3: {
         value: 0,
         text: '',
         error: '',
     },
-};
-export const equipment: Equipment = {
+}];
+export const equipment: Equipment[] = [ {
     Masks: {
         value: 0,
         text: '',
@@ -101,7 +83,7 @@ export const equipment: Equipment = {
         text: '',
         error: '',
     },
-};
+}];
 
 export const allTabs: Tab[] = [
     {

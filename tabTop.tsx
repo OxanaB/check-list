@@ -1,19 +1,18 @@
-
 import * as React from 'react';
 import { allTabs, Tab } from './data/tabs-data';
 
-export type TopTabConcern = ChoosenTabConcern;
+export type TabsConcern = ChoosenTabConcern;
 
 export interface ChoosenTabConcern {
     about: 'tab-choosen';
     activeTab: Tab;
 }
-export interface TopTabProps {
+export interface TabsProps {
     activeTab: Tab;
-    when: (concern: TopTabConcern) => void;
+    when: (concern: TabsConcern) => void;
 }
 
-export class TopTab extends React.Component<TopTabProps> {
+export class Tabs extends React.Component<TabsProps> {
     render() {
         const { activeTab } = this.props;
         return <div className="tabs-top">
