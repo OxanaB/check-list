@@ -1,26 +1,27 @@
 import * as React from 'react';
-import { Tab } from './data/tabs-data';
-import { Situation, SituationConcern, SituationProps } from './situation';
-import { Tabs, TabsProps } from './tabTop';
+import { Situation, SituationConcern, SituationProps, SituationSeed } from './situation';
+import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
 
-export type ChecklistConcern = SituationConcern;
+export type ChecklistConcern = SituationConcern | ChoosenTabConcern;
 
 export interface ChecklistProps {
-    situation: SituationProps;
-    activeTab: Tab;
+    allTabs: Tab[];
+    activeTabId: number;
+    situation: SituationSeed;
     when: (concern: ChecklistConcern) => void;
 }
 export class Checklist extends React.Component<ChecklistProps> {
     render() {
-        const { activeTab, tanks, weights, equipment } = this.props;
+        const { situation, allTabs, activeTabId } = this.props;
         const tabsProps: TabsProps = {
-            activeTab,
+            activeTabId,
+            allTabs,
             when: concern => {
                 this.props.when(concern);
             },
         };
         const situationProps: SituationProps = {
-            activeTab, tanks, weights, equipment,
+            seed: situation,
             when: concern => {
                 this.props.when(concern);
             },

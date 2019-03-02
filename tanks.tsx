@@ -6,11 +6,16 @@ export type TanksConcern = TanksToSaveConcern;
 export interface TanksToSaveConcern {
     about: 'tanks-to-save';
 }
-export interface TanksProps {
+export interface TanksSeed {
+    kind: 'tanks';
     air12L: Field;
     air15L: Field;
     nitrox12L: Field;
     nitrox15L: Field;
+
+}
+export interface TanksProps {
+    seed: TanksSeed;
     when: (concern: TanksConcern) => void;
 }
 

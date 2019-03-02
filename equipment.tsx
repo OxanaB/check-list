@@ -7,13 +7,17 @@ export interface EquipmentToSaveConcern {
     about: 'equipment-to-save';
 }
 
-export interface EquipmentProps {
+export interface EquipmentSeed {
+    kind: 'equipment';
     masks: Field;
     snorkels: Field;
-    BCDs: Field;
+    bcds: Field;
     regulators: Field;
     shorty: Field;
     fins: Field;
+}
+export interface EquipmentProps {
+    seed: EquipmentSeed;
     when: (concern: EquipmentConcern) => void;
 }
 

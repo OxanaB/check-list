@@ -7,17 +7,21 @@ export interface WeightsToSaveConcern {
     about: 'weights-to-save';
 }
 
-export interface WeightsProps {
+export interface WeightsSeed {
+    kind: 'weights';
     kiloPieces1: Field;
     kiloPieces2: Field;
     kiloPieces3: Field;
     totalWeights: number;
+}
+export interface WeightsProps {
+    seed: WeightsSeed;
     when: (concern: WeightsConcern) => void;
 }
 
 export class Weights extends React.Component<WeightsProps> {
     render() {
-        const { totalWeights } = this.props;
+        const { seed: { totalWeights } } = this.props;
         return <form className="checklist-form">
             <h2>Weights</h2>
             <div>Total weigths: {totalWeights}</div>

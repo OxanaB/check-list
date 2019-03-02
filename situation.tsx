@@ -1,22 +1,34 @@
 import * as React from 'react';
-import { Tab } from './data/tabs-data';
-import { EquipmentConcern, EquipmentProps } from './equipment';
-import { TanksConcern, TanksProps } from './tanks';
-import { WeightsConcern, WeightsProps } from './weights';
+import { Equipment, EquipmentConcern, EquipmentSeed } from './equipment';
+import { Tanks, TanksConcern, TanksSeed } from './tanks';
+import { broke } from './utils';
+import { Weights, WeightsConcern, WeightsSeed } from './weights';
 
-export type SituationConcern = TanksConcern | WeightsConcern | EquipmentConcern;
+export type SituationConcern =
+    | { about: 'tanks', tanks: TanksConcern }
+    | { about: 'weights', weights: WeightsConcern }
+    | { about: 'equipment', equipment: EquipmentConcern };
 
+export type SituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
 export interface SituationProps {
-    tanks: TanksProps;
-    weights: WeightsProps;
-    equipment: EquipmentProps;
-    activeTab: Tab;
+    seed: SituationSeed;
     when: (concern: SituationConcern) => void;
 }
 
 export class Situation extends React.Component<SituationProps> {
     render() {
-        return <div className="tabs-bottom">
-        </div>;
+        const { seed, when } = this.props;
+        switch (seed.kind) {
+            case 'equipment': return <Equipment
+                seed={seed} when={concern => when({ about: 'equipment', equipment: concern })}
+            />;
+            case 'tanks': return <Tanks
+                seed={seed} when={concern => when({ about: 'tanks', tanks: concern })}
+            />;
+            case 'weights': return <Weights
+                seed={seed} when={concern => when({ about: 'weights', weights: concern })}
+            />;
+            default: return broke(seed);
+        }
     }
 }

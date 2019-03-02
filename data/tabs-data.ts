@@ -1,19 +1,17 @@
-import { Equipment } from 'divemaster-checklist/equipment';
-import { TanksProps } from 'divemaster-checklist/tanks';
-import { Weights } from 'divemaster-checklist/weights';
+import { EquipmentSeed } from 'divemaster-checklist/equipment';
+import { Tab } from 'divemaster-checklist/tabTop';
+import { TanksSeed } from 'divemaster-checklist/tanks';
+import { WeightsSeed } from 'divemaster-checklist/weights';
 
-export interface Tab {
-    id: number;
-    title: string;
-    data: {};
-}
+
 export interface Field {
     value: number | null;
     text: string;
     error: string;
 }
 
-export const tanks: TanksProps [] = {
+export const tanks: TanksSeed = {
+    kind: 'tanks',
     air12L: {
         value: 0,
         text: '',
@@ -35,7 +33,8 @@ export const tanks: TanksProps [] = {
         error: '',
     },
 };
-export const weights: Weights [] = [{
+export const weights: WeightsSeed = {
+    kind: 'weights',
     kiloPieces1: {
         value: 0,
         text: '',
@@ -51,54 +50,53 @@ export const weights: Weights [] = [{
         text: '',
         error: '',
     },
-}];
-export const equipment: Equipment[] = [ {
-    Masks: {
+    totalWeights: 0,
+};
+export const equipment: EquipmentSeed = {
+    kind: 'equipment',
+    masks: {
         value: 0,
         text: '',
         error: '',
     },
-    Snorkels: {
+    snorkels: {
         value: 0,
         text: '',
         error: '',
     },
-    BCDs: {
+    bcds: {
         value: 0,
         text: '',
         error: '',
     },
-    Regulators: {
+    regulators: {
         value: 0,
         text: '',
         error: '',
     },
-    Shorty: {
+    shorty: {
         value: 0,
         text: '',
         error: '',
     },
-    Fins: {
+    fins: {
         value: 0,
         text: '',
         error: '',
     },
-}];
+};
 
 export const allTabs: Tab[] = [
     {
         id: 1001,
         title: 'Tanks',
-        data: tanks,
     },
     {
         id: 1002,
         title: 'Weights',
-        data: weights,
     },
     {
         id: 1003,
         title: 'Equipment',
-        data: equipment,
     },
 ];
