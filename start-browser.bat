@@ -1,1 +1,1 @@
-start chrome.exe http://localhost:8000
+start chrome.exe http://localhost:8000 --user-data-dir=./browser

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Equipment, EquipmentConcern, EquipmentExternalConcern, EquipmentInternalConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
-import { faceTanksInternalConcern, Tanks, TanksConcern, TanksExternalConcern, TanksInternalConcern, TanksSeed } from './tanks';
-import { broke, crash } from './utils';
-import { faceWeightsInternalConcern, Weights, WeightsConcern, WeightsExternalConcern, WeightsInternalConcern, WeightsSeed } from './weights';
+import { Equipment, EquipmentConcern, EquipmentExternalConcern, EquipmentInternalConcern, EquipmentSeed } from './equipment';
+import { Tanks, TanksConcern, TanksExternalConcern, TanksInternalConcern, TanksSeed } from './tanks';
+import { broke } from './utils';
+import { Weights, WeightsConcern, WeightsExternalConcern, WeightsInternalConcern, WeightsSeed } from './weights';
 
 export type SituationInternalConcern =
     | { about: 'tanks', tanks: TanksInternalConcern }
@@ -70,35 +70,5 @@ function toSituationConcernFromWeights(concern: WeightsConcern): SituationConcer
         return { about: 'weights', weights: concern };
     } else {
         return { about: 'weights', weights: concern };
-    }
-}
-
-export function faceChecklistInternalConcern(
-    oldSituation: SituationSeed,
-    concern: SituationInternalConcern,
-): SituationSeed {
-    switch (concern.about) {
-        case 'equipment': {
-            if (oldSituation.kind !== 'equipment') {
-                return crash('Equipment concern met ' + oldSituation.kind + ' situation.');
-            }
-            const newSituation = faceEquipmentInternalConcern(oldSituation, concern.equipment);
-            return newSituation;
-        }
-        case 'tanks': {
-            if (oldSituation.kind !== 'tanks') {
-                return crash('Tanks concern met ' + oldSituation.kind + ' situation.');
-            }
-            const newSituation = faceTanksInternalConcern(oldSituation, concern.tanks);
-            return newSituation;
-        }
-        case 'weights': {
-            if (oldSituation.kind !== 'weights') {
-                return crash('Weights concern met ' + oldSituation.kind + ' situation.');
-            }
-            const newSituation = faceWeightsInternalConcern(oldSituation, concern.weights);
-            return newSituation;
-        }
-        default: return broke(concern);
     }
 }
