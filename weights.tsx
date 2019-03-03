@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { TextField, TextFieldConcern, TextFieldSeed } from './text-field';
+import { $across, toStewardOf } from './stewarding';
+import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
+import { broke } from './utils';
 
-export type WeightsConcern =
-    | WeightsToSaveConcern
+export type WeightsConcern = WeightsInternalConcern | WeightsExternalConcern;
+
+export type WeightsExternalConcern = WeightsToSaveConcern;
+
+export type WeightsInternalConcern =
     | WhenOneKiloPiecesConcern
     | WhenTwoKiloPiecesConcern
     | WhenThreeKiloPiecesConcern;
 
 export interface WeightsToSaveConcern {
     about: 'weights-to-save';
-    totalWeights: number;
 }
 export interface WhenOneKiloPiecesConcern {
     about: '1-kilo-pieses';
@@ -47,6 +51,7 @@ export class Weights extends React.Component<WeightsProps> {
     }
     render() {
         const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights } } = this.props;
+//        const totalWeights = kiloPieces1.value + kiloPieces2.value * 2 + kiloPieces3.value * 3;
         return <div className="checklist-form">
             <h2>Weights</h2>
             <form>
@@ -63,10 +68,29 @@ export class Weights extends React.Component<WeightsProps> {
                 <button onSubmit={() => {
                     this.props.when({
                         about: 'weights-to-save',
-                        totalWeights,
                     });
                 }}>SAVE</button>
             </form>;
         </div>;
+    }
+}
+
+const inWeightsSeed = toStewardOf<WeightsSeed>();
+
+export function faceWeightsInternalConcern(
+    weights: WeightsSeed,
+    concern: WeightsInternalConcern,
+): WeightsSeed {
+    switch (concern.about) {
+        case '1-kilo-pieses': return inWeightsSeed.kiloPieces1[$across](
+            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces1),
+        );
+        case '2-kilo-pieses': return inWeightsSeed.kiloPieces2[$across](
+            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces2),
+        );
+        case '3-kilo-pieses': return inWeightsSeed.kiloPieces3[$across](
+            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces3),
+        );
+        default: return broke(concern);
     }
 }
