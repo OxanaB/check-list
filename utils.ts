@@ -1,4 +1,4 @@
-import { FieldSeed } from './field';
+import { TextFieldSeed } from './text-field';
 
 export function getRandomElement<T>(array: T[]): T {
     const n = Math.random() * array.length;
@@ -131,7 +131,7 @@ export function monthFromStringToNumber(value: string, array: string[]): number 
     return result;
 }
 
-export function checkValue(enteredValue: string): FieldSeed {
+export function checkValue(enteredValue: string): TextFieldSeed {
     const valueToNumber = parseInt(enteredValue);
     if (valueToNumber) {
         const field = {

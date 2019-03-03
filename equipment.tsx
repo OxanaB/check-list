@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FieldConcern, FieldSeed } from './field';
-import { TextField } from './text-field';
+import { TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 
 export type EquipmentConcern =
     | EquipmentToSaveConcern
@@ -14,31 +13,31 @@ export type EquipmentConcern =
 
 export interface WhenMasksConcern {
     about: 'masks';
-    masks: FieldConcern;
+    masks: TextFieldConcern;
 }
 export interface WhenSnorkelsConcern {
     about: 'snorkels';
-    snorkels: FieldConcern;
+    snorkels: TextFieldConcern;
 }
 export interface WhenBcdsConcern {
     about: 'bcds';
-    bcds: FieldConcern;
+    bcds: TextFieldConcern;
 }
 export interface WhenRegulatorsConcern {
     about: 'regulators';
-    regulators: FieldConcern;
+    regulators: TextFieldConcern;
 }
 export interface WhenShortiesConcern {
     about: 'shorties';
-    shorties: FieldConcern;
+    shorties: TextFieldConcern;
 }
 export interface WhenFinsConcern {
     about: 'fins';
-    fins: FieldConcern;
+    fins: TextFieldConcern;
 }
 export interface WhenBeltsConcern {
     about: 'belts';
-    belts: FieldConcern;
+    belts: TextFieldConcern;
 }
 export interface EquipmentToSaveConcern {
     about: 'equipment-to-save';
@@ -46,13 +45,13 @@ export interface EquipmentToSaveConcern {
 
 export interface EquipmentSeed {
     kind: 'equipment';
-    masks: FieldSeed;
-    snorkels: FieldSeed;
-    bcds: FieldSeed;
-    regulators: FieldSeed;
-    shorties: FieldSeed;
-    fins: FieldSeed;
-    belts: FieldSeed;
+    masks: TextFieldSeed;
+    snorkels: TextFieldSeed;
+    bcds: TextFieldSeed;
+    regulators: TextFieldSeed;
+    shorties: TextFieldSeed;
+    fins: TextFieldSeed;
+    belts: TextFieldSeed;
 }
 export interface EquipmentProps {
     seed: EquipmentSeed;
@@ -60,25 +59,25 @@ export interface EquipmentProps {
 }
 
 export class Equipment extends React.Component<EquipmentProps> {
-    private whenMasks = (concern: FieldConcern) => {
+    private whenMasks = (concern: TextFieldConcern) => {
         this.props.when({ about: 'masks', masks: concern });
     }
-    private whenSnorkels = (concern: FieldConcern) => {
+    private whenSnorkels = (concern: TextFieldConcern) => {
         this.props.when({ about: 'snorkels', snorkels: concern });
     }
-    private whenBcds = (concern: FieldConcern) => {
+    private whenBcds = (concern: TextFieldConcern) => {
         this.props.when({ about: 'bcds', bcds: concern });
     }
-    private whenRegulators = (concern: FieldConcern) => {
+    private whenRegulators = (concern: TextFieldConcern) => {
         this.props.when({ about: 'regulators', regulators: concern });
     }
-    private whenShorties = (concern: FieldConcern) => {
+    private whenShorties = (concern: TextFieldConcern) => {
         this.props.when({ about: 'shorties', shorties: concern });
     }
-    private whenFins = (concern: FieldConcern) => {
+    private whenFins = (concern: TextFieldConcern) => {
         this.props.when({ about: 'fins', fins: concern });
     }
-    private whenBelts = (concern: FieldConcern) => {
+    private whenBelts = (concern: TextFieldConcern) => {
         this.props.when({ about: 'belts', belts: concern });
     }
     render() {

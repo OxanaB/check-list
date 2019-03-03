@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FieldConcern, FieldSeed } from './field';
-import { TextField } from './text-field';
+import { TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 
 export type WeightsConcern =
     | WeightsToSaveConcern
@@ -14,21 +13,21 @@ export interface WeightsToSaveConcern {
 }
 export interface WhenOneKiloPiecesConcern {
     about: '1-kilo-pieses';
-    kiloPieces1: FieldConcern;
+    kiloPieces1: TextFieldConcern;
 }
 export interface WhenTwoKiloPiecesConcern {
     about: '2-kilo-pieses';
-    kiloPieces2: FieldConcern;
+    kiloPieces2: TextFieldConcern;
 }
 export interface WhenThreeKiloPiecesConcern {
     about: '3-kilo-pieses';
-    kiloPieces3: FieldConcern;
+    kiloPieces3: TextFieldConcern;
 }
 export interface WeightsSeed {
     kind: 'weights';
-    kiloPieces1: FieldSeed;
-    kiloPieces2: FieldSeed;
-    kiloPieces3: FieldSeed;
+    kiloPieces1: TextFieldSeed;
+    kiloPieces2: TextFieldSeed;
+    kiloPieces3: TextFieldSeed;
     totalWeights: number;
 }
 export interface WeightsProps {
@@ -37,13 +36,13 @@ export interface WeightsProps {
 }
 
 export class Weights extends React.Component<WeightsProps> {
-    private whenOneKiloPieces = (concern: FieldConcern) => {
+    private whenOneKiloPieces = (concern: TextFieldConcern) => {
         this.props.when({ about: '1-kilo-pieses', kiloPieces1: concern });
     }
-    private whenTwoKiloPieces = (concern: FieldConcern) => {
+    private whenTwoKiloPieces = (concern: TextFieldConcern) => {
         this.props.when({ about: '2-kilo-pieses', kiloPieces2: concern });
     }
-    private whenThreeKiloPieces = (concern: FieldConcern) => {
+    private whenThreeKiloPieces = (concern: TextFieldConcern) => {
         this.props.when({ about: '3-kilo-pieses', kiloPieces3: concern });
     }
     render() {
