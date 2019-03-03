@@ -4,12 +4,6 @@ import { TanksSeed } from 'divemaster-checklist/tanks';
 import { WeightsSeed } from 'divemaster-checklist/weights';
 
 
-export interface Field {
-    value: number | null;
-    text: string;
-    error: string;
-}
-
 export const tanks: TanksSeed = {
     kind: 'tanks',
     air12L: {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field } from './data/tabs-data';
+import { FieldSeed } from './data/field';
 
 export type EquipmentConcern = EquipmentToSaveConcern;
 
@@ -9,12 +9,12 @@ export interface EquipmentToSaveConcern {
 
 export interface EquipmentSeed {
     kind: 'equipment';
-    masks: Field;
-    snorkels: Field;
-    bcds: Field;
-    regulators: Field;
-    shorty: Field;
-    fins: Field;
+    masks: FieldSeed;
+    snorkels: FieldSeed;
+    bcds: FieldSeed;
+    regulators: FieldSeed;
+    shorty: FieldSeed;
+    fins: FieldSeed;
 }
 export interface EquipmentProps {
     seed: EquipmentSeed;

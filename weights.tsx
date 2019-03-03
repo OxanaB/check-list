@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field } from './data/tabs-data';
+import { FieldSeed } from './data/field';
 
 export type WeightsConcern = WeightsToSaveConcern;
 
@@ -9,9 +9,9 @@ export interface WeightsToSaveConcern {
 
 export interface WeightsSeed {
     kind: 'weights';
-    kiloPieces1: Field;
-    kiloPieces2: Field;
-    kiloPieces3: Field;
+    kiloPieces1: FieldSeed;
+    kiloPieces2: FieldSeed;
+    kiloPieces3: FieldSeed;
     totalWeights: number;
 }
 export interface WeightsProps {

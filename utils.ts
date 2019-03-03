@@ -1,3 +1,4 @@
+import { FieldSeed } from './data/field';
 
 export function getRandomElement<T>(array: T[]): T {
     const n = Math.random() * array.length;
@@ -125,7 +126,26 @@ export function monthToString(month: string[], index: number): string {
     const choosenMonth = month[index];
     return choosenMonth;
 }
-export function monthFromStringToNumber (value: string, array: string[]): number {
+export function monthFromStringToNumber(value: string, array: string[]): number {
     const result = array.indexOf(value);
     return result;
+}
+
+export function checkValue(enteredValue: string): FieldSeed {
+    const valueToNumber = parseInt(enteredValue);
+    if (valueToNumber) {
+        const field = {
+            value: valueToNumber,
+            text: '',
+            error: '',
+        };
+        return field;
+    } else {
+        const field = {
+            value: null,
+            text: enteredValue,
+            error: '',
+        };
+        return field;
+    }
 }

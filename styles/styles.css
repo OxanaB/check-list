@@ -57,26 +57,24 @@ button {
   background-color: white;
   border-bottom: none;
 }
-.tabs-container .tabs-bottom {
+.tabs-container .checklist-form {
   border-left: 1px solid #808080;
   border-right: 1px solid #808080;
   border-bottom: 1px solid #808080;
   padding: 10px;
   max-width: 420px;
 }
-.tabs-container .tabs-bottom .bottom-item {
+.tabs-container .checklist-form label {
   margin-top: 15px;
-}
-.tabs-container .tabs-bottom .bottom-item label {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.tabs-container .tabs-bottom .bottom-item input {
+.tabs-container .checklist-form input {
   flex: 1;
   height: 30px;
   margin-left: 10px;
 }
-.tabs-container .tabs-bottom .bottom-item input::placeholder {
+.tabs-container .checklist-form input::placeholder {
   font-style: italic;
 }
