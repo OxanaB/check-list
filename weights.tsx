@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { $across, toStewardOf } from './stewarding';
+import { $across, $on, toStewardOf } from './stewarding';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 import { broke } from './utils';
 
@@ -51,18 +51,17 @@ export class Weights extends React.Component<WeightsProps> {
     }
     render() {
         const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights } } = this.props;
-//        const totalWeights = kiloPieces1.value + kiloPieces2.value * 2 + kiloPieces3.value * 3;
         return <div className="checklist-form">
             <h2>Weights</h2>
             <form>
                 <label>1 kilo pieces
-                    <TextField seed={kiloPieces1} when={this.whenOneKiloPieces}/>
+                    <TextField seed={kiloPieces1} when={this.whenOneKiloPieces} />
                 </label>
                 <label>2 kilo pieces
-                    <TextField seed={kiloPieces2} when={this.whenTwoKiloPieces}/>
+                    <TextField seed={kiloPieces2} when={this.whenTwoKiloPieces} />
                 </label>
                 <label>3 kilo pieces
-                    <TextField seed={kiloPieces3} when={this.whenThreeKiloPieces}/>
+                    <TextField seed={kiloPieces3} when={this.whenThreeKiloPieces} />
                 </label>
                 <div>Total weigths: {totalWeights}</div>
                 <button onSubmit={() => {
@@ -70,7 +69,7 @@ export class Weights extends React.Component<WeightsProps> {
                         about: 'weights-to-save',
                     });
                 }}>SAVE</button>
-            </form>;
+            </form>
         </div>;
     }
 }
@@ -78,9 +77,37 @@ export class Weights extends React.Component<WeightsProps> {
 const inWeightsSeed = toStewardOf<WeightsSeed>();
 
 export function faceWeightsInternalConcern(
+    oldWeights: WeightsSeed,
+    concern: WeightsInternalConcern,
+): WeightsSeed {
+    const weightsWithInput = takeUserInput(oldWeights, concern);
+
+    const pairs = toArrayOfPairsOfFieldAndFactor(weightsWithInput);
+    const totalWeight = pairs.reduce(
+        (result, pair) => pair.field.value !== null
+            ? result + pair.field.value * pair.factor
+            : result
+        , 0);
+
+    const weightsWithTotal = inWeightsSeed.totalWeights[$on](
+        weightsWithInput, totalWeight,
+    );
+    return weightsWithTotal;
+}
+
+function toArrayOfPairsOfFieldAndFactor(weights: WeightsSeed) {
+    return [
+        { field: weights.kiloPieces1, factor: 1 },
+        { field: weights.kiloPieces2, factor: 2 },
+        { field: weights.kiloPieces3, factor: 3 },
+    ];
+}
+
+export function takeUserInput(
     weights: WeightsSeed,
     concern: WeightsInternalConcern,
 ): WeightsSeed {
+
     switch (concern.about) {
         case '1-kilo-pieses': return inWeightsSeed.kiloPieces1[$across](
             weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces1),

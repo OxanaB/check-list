@@ -114,7 +114,7 @@ export class Equipment extends React.Component<EquipmentProps> {
                         about: 'equipment-to-save',
                     });
                 }}>SAVE</button>
-            </form>;
+            </form>
         </div>;
     }
 }

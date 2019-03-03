@@ -82,7 +82,7 @@ export class Tanks extends React.Component<TanksProps> {
                         about: 'tanks-to-save',
                     });
                 }}>SAVE</button>
-            </form>;
+            </form>
         </div>;
     }
 }
