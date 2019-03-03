@@ -4,7 +4,7 @@ import { Checklist, ChecklistConcern, ChecklistProps } from './checklist';
 import { allTabs, equipment, tanks, weights } from './data/tabs-data';
 import { EquipmentConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
 import { SituationSeed } from './situation';
-import { $on, toStewardOf } from './stewarding';
+import { $atop, $on, toStewardOf } from './stewarding';
 import { Tab } from './tabTop';
 import { faceTanksInternalConcern, TanksConcern, TanksSeed } from './tanks';
 import { broke, crash, to } from './utils';
@@ -79,12 +79,28 @@ function faceTanksConcern(oldState: AppState, concern: TanksConcern): AppState {
 
 function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     switch (concern.about) {
-        case 'tab-choosen': return oldState;
+        case 'tab-choosen': {
+            const activeTabId = concern.activeTab.id;
+            return inAppState[$atop](oldState, {
+                activeTabId,
+                situation: pickSituationSeedByTabId(oldState, activeTabId),
+            });
+        }
         case 'equipment': return faceEquipmentConcern(oldState, concern.equipment);
         case 'weights': return faceWeightsConcern(oldState, concern.weights);
         case 'tanks': return faceTanksConcern(oldState, concern.tanks);
         default: return broke(concern);
     }
+}
+
+function pickSituationSeedByTabId(state: AppState, tabId: number): SituationSeed {
+    switch (tabId) {
+        case 1001: return state.tanks;
+        case 1002: return state.weights;
+        case 1003: return state.equipment;
+        default: return crash('Invalid tab id.');
+    }
+
 }
 
 
