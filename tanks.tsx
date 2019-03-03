@@ -56,7 +56,7 @@ export class Tanks extends React.Component<TanksProps> {
     }
 
     render() {
-        const { air12L, air15L, nitrox12L, nitrox15L } = this.props.seed;
+        const { seed: { air12L, air15L, nitrox12L, nitrox15L } } = this.props;
         return <div className="checklist-form">
             <h2>Tanks</h2>
             <form >
