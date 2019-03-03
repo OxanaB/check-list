@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { TextField, TextFieldConcern, TextFieldSeed } from './text-field';
+import { $across, toStewardOf } from './stewarding';
+import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
+import { broke } from './utils';
 
-export type EquipmentConcern =
-    | EquipmentToSaveConcern
+export type EquipmentConcern = EquipmentInternalConcern | EquipmentExternalConcern;
+export type EquipmentExternalConcern = EquipmentToSaveConcern;
+export type EquipmentInternalConcern =
     | WhenMasksConcern
     | WhenSnorkelsConcern
     | WhenBcdsConcern
@@ -113,5 +116,37 @@ export class Equipment extends React.Component<EquipmentProps> {
                 }}>SAVE</button>
             </form>;
         </div>;
+    }
+}
+
+const inEquipmentSeed = toStewardOf<EquipmentSeed>();
+
+export function faceEquipmentInternalConcern(
+    equipment: EquipmentSeed,
+    concern: EquipmentInternalConcern,
+): EquipmentSeed {
+    switch (concern.about) {
+        case 'masks': return inEquipmentSeed.masks[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.masks),
+            );
+        case 'snorkels': return inEquipmentSeed.snorkels[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.snorkels),
+            );
+        case 'bcds': return inEquipmentSeed.bcds[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.bcds),
+            );
+        case 'regulators': return inEquipmentSeed.regulators[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.regulators),
+            );
+        case 'shorties': return inEquipmentSeed.shorties[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.shorties),
+            );
+        case 'fins': return inEquipmentSeed.fins[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.fins),
+            );
+        case 'belts': return inEquipmentSeed.belts[$across](equipment,
+            oldField => faceTextFieldConcern(oldField, concern.belts),
+            );
+        default: return broke(concern);
     }
 }
