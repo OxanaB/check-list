@@ -1,18 +1,23 @@
 import * as React from 'react';
-import { Situation, SituationConcern, SituationProps, SituationSeed } from './situation';
+import { Situation, SituationExternalConcern, SituationInternalConcern, SituationProps, SituationSeed } from './situation';
 import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
 
-export type ChecklistConcern = SituationConcern | ChoosenTabConcern;
+export type ChecklistInternalConcern = SituationInternalConcern;
+export type ChecklistExternalConcern = SituationExternalConcern | ChoosenTabConcern;
+export type ChecklistConcern = ChecklistInternalConcern | ChecklistExternalConcern ;
 
-export interface ChecklistProps {
+export interface ChecklistSeed {
     allTabs: Tab[];
     activeTabId: number;
     situation: SituationSeed;
+}
+export interface ChecklistProps {
+    seed: ChecklistSeed;
     when: (concern: ChecklistConcern) => void;
 }
 export class Checklist extends React.Component<ChecklistProps> {
     render() {
-        const { situation, allTabs, activeTabId } = this.props;
+        const { seed: { situation, allTabs, activeTabId } } = this.props;
         const tabsProps: TabsProps = {
             activeTabId,
             allTabs,
@@ -27,8 +32,8 @@ export class Checklist extends React.Component<ChecklistProps> {
             },
         };
         return <div className="tabs-container">
-            <Tabs {...tabsProps}/>
-            <Situation {...situationProps}/>
+            <Tabs {...tabsProps} />
+            <Situation {...situationProps} />
         </div>;
     }
 }

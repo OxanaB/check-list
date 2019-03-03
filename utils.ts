@@ -95,6 +95,10 @@ export function increment<T>(step: number, origin: number, times: number, act: (
     return result;
 }
 
+export function crash(message: string): never  {
+    throw new Error(message);
+}
+
 export function broke(never: never): never {
     console.log(never);
     throw new Error('Unexpected case.');

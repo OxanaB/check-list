@@ -6,39 +6,39 @@ import { broke } from './utils';
 export type EquipmentConcern = EquipmentInternalConcern | EquipmentExternalConcern;
 export type EquipmentExternalConcern = EquipmentToSaveConcern;
 export type EquipmentInternalConcern =
-    | WhenMasksConcern
-    | WhenSnorkelsConcern
-    | WhenBcdsConcern
-    | WhenRegulatorsConcern
-    | WhenShortiesConcern
-    | WhenFinsConcern
-    | WhenBeltsConcern;
+    | MasksConcern
+    | SnorkelsConcern
+    | BcdsConcern
+    | RegulatorsConcern
+    | ShortiesConcern
+    | FinsConcern
+    | BeltsConcern;
 
-export interface WhenMasksConcern {
+export interface MasksConcern {
     about: 'masks';
     masks: TextFieldConcern;
 }
-export interface WhenSnorkelsConcern {
+export interface SnorkelsConcern {
     about: 'snorkels';
     snorkels: TextFieldConcern;
 }
-export interface WhenBcdsConcern {
+export interface BcdsConcern {
     about: 'bcds';
     bcds: TextFieldConcern;
 }
-export interface WhenRegulatorsConcern {
+export interface RegulatorsConcern {
     about: 'regulators';
     regulators: TextFieldConcern;
 }
-export interface WhenShortiesConcern {
+export interface ShortiesConcern {
     about: 'shorties';
     shorties: TextFieldConcern;
 }
-export interface WhenFinsConcern {
+export interface FinsConcern {
     about: 'fins';
     fins: TextFieldConcern;
 }
-export interface WhenBeltsConcern {
+export interface BeltsConcern {
     about: 'belts';
     belts: TextFieldConcern;
 }
@@ -119,7 +119,7 @@ export class Equipment extends React.Component<EquipmentProps> {
     }
 }
 
-const inEquipmentSeed = toStewardOf<EquipmentSeed>();
+export const inEquipmentSeed = toStewardOf<EquipmentSeed>();
 
 export function faceEquipmentInternalConcern(
     equipment: EquipmentSeed,
