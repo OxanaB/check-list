@@ -1,4 +1,4 @@
-import { FieldSeed } from './data/field';
+import { FieldSeed } from './field';
 
 export function getRandomElement<T>(array: T[]): T {
     const n = Math.random() * array.length;

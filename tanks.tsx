@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FieldConcern, FieldSeed } from './data/field';
+import { FieldConcern, FieldSeed } from './field';
 import { TextField } from './text-field';
 
 export type TanksConcern =

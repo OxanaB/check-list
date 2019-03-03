@@ -68,12 +68,17 @@ export const equipment: EquipmentSeed = {
         text: '',
         error: '',
     },
-    shorty: {
+    shorties: {
         value: 0,
         text: '',
         error: '',
     },
     fins: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    belts: {
         value: 0,
         text: '',
         error: '',
