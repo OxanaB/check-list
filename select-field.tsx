@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { broke } from './utils';
 
 export interface SelectFieldConcern {
     about: 'selected-option';
@@ -11,6 +10,7 @@ export interface SelectFieldProps {
     activeOption: string;
     when: (concern: SelectFieldConcern) => void;
 }
+
 export class SelectField extends React.Component<SelectFieldProps> {
     private whenSelected: React.ChangeEventHandler<HTMLSelectElement> = e => {
         const { when } = this.props;
@@ -28,17 +28,5 @@ export class SelectField extends React.Component<SelectFieldProps> {
                 }
             </select>
         </>;
-    }
-}
-
-export function faceSelectFieldConcern(
-    concern: SelectFieldConcern,
-) {
-    switch (concern.about) {
-        case 'selected-option':
-            return {
-                activeOption: concern.activeOption,
-            };
-        default: return broke(concern.about);
     }
 }
