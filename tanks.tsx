@@ -85,7 +85,7 @@ export class Tanks extends React.Component<TanksProps> {
 
 const inTanksSeed = toStewardOf<TanksSeed>();
 
-export function faceTanksInternalConcern(
+export function faceTanksConcern(
     oldTanks: TanksSeed,
     concern: TanksConcern,
 ): TanksSeed {

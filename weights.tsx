@@ -73,7 +73,7 @@ export class Weights extends React.Component<WeightsProps> {
 
 const inWeightsSeed = toStewardOf<WeightsSeed>();
 
-export function faceWeightsInternalConcern(
+export function faceWeightsConcern(
     oldWeights: WeightsSeed,
     concern: WeightsConcern,
 ): WeightsSeed {

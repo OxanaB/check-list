@@ -1,15 +1,20 @@
 import * as React from 'react';
-import { Tanks, TanksConcern, TanksProps, TanksSeed } from './tanks';
-import { Weights, WeightsConcern, WeightsProps, WeightsSeed } from './weights';
+import { $across, toStewardOf } from './stewarding';
+import { faceTanksConcern, Tanks, TanksConcern, TanksProps, TanksSeed } from './tanks';
+import { broke } from './utils';
+import { faceWeightsConcern, Weights, WeightsConcern, WeightsProps, WeightsSeed } from './weights';
 
 export interface DiversBoatChecklistSeed {
     tanks: TanksSeed;
     weights: WeightsSeed;
     comment: string;
 }
-export type DiversBoatChecklistConcern = TanksConcern | WeightsConcern | CheckListDiversConcern;
+export type DiversBoatChecklistConcern =
+    | { about: 'tanks', tanks: TanksConcern }
+    | { about: 'weights', weights: WeightsConcern }
+    | DiversChecklistCommentConcern;
 
-export interface CheckListDiversConcern {
+export interface DiversChecklistCommentConcern {
     about: 'divers-checklist-commented';
     comment: string;
 }
@@ -29,13 +34,13 @@ export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProp
         const tanksProps: TanksProps = {
             seed: tanks,
             when: concern => {
-                this.props.when(concern);
+                this.props.when({ about: 'tanks', tanks: concern });
             },
         };
         const weightsProps: WeightsProps = {
             seed: weights,
             when: concern => {
-                this.props.when(concern);
+                this.props.when({ about: 'weights', weights: concern });
             },
         };
         return <div className="wisard">
@@ -45,4 +50,29 @@ export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProp
                 <textarea onChange={this.whenCommentedDiversChecklist} /></div>
         </div>;
     }
+}
+
+const inDiversBoatCheckListSeed = toStewardOf<DiversBoatChecklistSeed>();
+
+export function faceDiversBoatChecklistConcern(
+    oldSeed: DiversBoatChecklistSeed,
+    concern: DiversBoatChecklistConcern,
+): DiversBoatChecklistSeed {
+    switch (concern.about) {
+        case 'divers-checklist-commented': {
+            return {
+                ...oldSeed, comment: concern.comment,
+            };
+        }
+        case 'tanks': return inDiversBoatCheckListSeed.tanks[$across](
+            oldSeed,
+            oldTanks => faceTanksConcern(oldTanks, concern.tanks),
+        );
+        case 'weights': return inDiversBoatCheckListSeed.weights[$across](
+            oldSeed,
+            oldWeights => faceWeightsConcern(oldWeights, concern.weights),
+        );
+        default: return broke(concern);
+    }
+
 }
