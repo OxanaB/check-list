@@ -120,7 +120,7 @@ export class Equipment extends React.Component<EquipmentProps> {
 
 export const inEquipmentSeed = toStewardOf<EquipmentSeed>();
 
-export function faceEquipmentInternalConcern(
+export function faceEquipmentConcern(
     oldEqiupment: EquipmentSeed,
     concern: EquipmentConcern,
 ): EquipmentSeed {

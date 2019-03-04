@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { equipment, EquipmentConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
+import { equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
 import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps } from './intro-boat-checklist';
 import { IntroBoatSituationSeed } from './intro-boat-situation';
 import { $atop, $on, toStewardOf } from './stewarding';
@@ -56,7 +56,7 @@ function faceEquipmentConcern(oldState: AppState, concern: EquipmentConcern): Ap
     const situation = pickSituationSeedByTabId(oldState, oldState.activeTabId);
     if (situation.kind !== 'equipment') return crash('!!!');
     if (concern.about === 'equipment-to-save') return oldState;
-    const newEquipment = faceEquipmentInternalConcern(situation, concern);
+    const newEquipment = faceEquipmentConcern(situation, concern);
     const newState = inAppState.equipment[$on](oldState, newEquipment);
     return newState;
 }

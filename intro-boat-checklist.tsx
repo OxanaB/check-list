@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Equipment, EquipmentConcern, EquipmentSeed } from './equipment';
+import { Equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
+import { $across, toStewardOf } from './stewarding';
 import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
-import { Tanks, TanksConcern, TanksSeed } from './tanks';
+import { faceTanksConcern, Tanks, TanksConcern, TanksSeed } from './tanks';
 import { broke } from './utils';
-import { Weights, WeightsConcern, WeightsSeed } from './weights';
+import { faceWeightsConcern, Weights, WeightsConcern, WeightsSeed } from './weights';
 
 export type IntroBoatChecklistConcern =
     | { about: 'tanks', tanks: TanksConcern }
@@ -11,13 +12,18 @@ export type IntroBoatChecklistConcern =
     | { about: 'equipment', equipment: EquipmentConcern }
     | ChoosenTabConcern;
 
-type SituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
+export type SituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
+
 export interface IntroBoatChecklistSeed {
-    allTabs: Tab[];
+    tanks: TanksSeed;
+    weights: WeightsSeed;
+    equipment: EquipmentSeed;
     activeTabId: string;
-    situation: SituationSeed;
 }
+
 export interface IntroBoatChecklistProps {
+    allTabs: Tab[];
+    situation: SituationSeed;
     seed: IntroBoatChecklistSeed;
     when: (concern: IntroBoatChecklistConcern) => void;
 }
@@ -41,8 +47,8 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
     }
 
     render() {
-        const { seed: { situation } } = this.props;
-        const { activeTabId, allTabs } = this.props.seed;
+        const { seed: { activeTabId } } = this.props;
+        const { allTabs, situation } = this.props;
         const tabsProps: TabsProps = {
             activeTabId,
             allTabs,
@@ -54,5 +60,33 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
             <Tabs {...tabsProps} />
             {this.renderSituation(situation)}
         </div>;
+    }
+}
+
+const inIntroBoatChecklistSeed = toStewardOf<IntroBoatChecklistSeed>();
+
+export function faceIntoBoatCheckListConsern(
+    oldSeed: IntroBoatChecklistSeed,
+    concern: IntroBoatChecklistConcern,
+): IntroBoatChecklistSeed {
+    switch (concern.about) {
+        case 'tab-choosen': {
+            return {
+                ...oldSeed, activeTabId: concern.activeTabId,
+            };
+        }
+        case 'equipment': return inIntroBoatChecklistSeed.equipment[$across](
+            oldSeed,
+            oldGear => faceEquipmentConcern(oldGear, concern.equipment),
+        );
+        case 'weights': return inIntroBoatChecklistSeed.weights[$across](
+            oldSeed,
+            oldWeights => faceWeightsConcern(oldWeights, concern.weights),
+        );
+        case 'tanks': return inIntroBoatChecklistSeed.tanks[$across](
+            oldSeed,
+            oldTanks => faceTanksConcern(oldTanks, concern.tanks),
+        );
+        default: return broke(concern);
     }
 }

@@ -5,7 +5,7 @@ export interface Tab {
 }
 export interface ChoosenTabConcern {
     about: 'tab-choosen';
-    activeTab: Tab;
+    activeTabId: string;
 }
 
 export interface TabsProps {
@@ -25,7 +25,7 @@ export class Tabs extends React.Component<TabsProps> {
                         e.preventDefault();
                         this.props.when({
                             about: 'tab-choosen',
-                            activeTab: tab,
+                            activeTabId: tab.title,
                         });
                     }}
                 >{tab.title}</a>;
