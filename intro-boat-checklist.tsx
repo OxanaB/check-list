@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntroBoatSituation, IntroBoatSituationExternalConcern, IntroBoatSituationInternalConcern, IntroBoatSituationProps, IntroBoatSituationSeed } from './situation';
+import { IntroBoatSituation, IntroBoatSituationExternalConcern, IntroBoatSituationInternalConcern, IntroBoatSituationProps, IntroBoatSituationSeed } from './intro-boat-situation';
 import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
 
 export type IntroBoatChecklistInternalConcern = IntroBoatSituationInternalConcern;
@@ -17,7 +17,8 @@ export interface IntroBoatChecklistProps {
 }
 export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps> {
     render() {
-        const { seed: { situation, allTabs, activeTabId } } = this.props;
+        const { seed: { situation }  } = this.props;
+        const { activeTabId, allTabs } = this.props.seed;
         const tabsProps: TabsProps = {
             activeTabId,
             allTabs,
