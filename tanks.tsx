@@ -3,12 +3,8 @@ import { $across, toStewardOf } from './stewarding';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 import { broke } from './utils';
 
-export type TanksConcern = TanksInternalConcern | TanksExternalConcern;
-
-export type TanksExternalConcern =
-    | TanksToSaveConcern;
-
-export type TanksInternalConcern =
+export type TanksConcern =
+    | TanksToSaveConcern
     | Air12LConsern
     | Air15LConsern
     | Nitrox12LConsern
@@ -90,25 +86,26 @@ export class Tanks extends React.Component<TanksProps> {
 const inTanksSeed = toStewardOf<TanksSeed>();
 
 export function faceTanksInternalConcern(
-    tanks: TanksSeed,
-    concern: TanksInternalConcern,
+    oldTanks: TanksSeed,
+    concern: TanksConcern,
 ): TanksSeed {
     switch (concern.about) {
-        case 'air12L': return inTanksSeed.air12L[$across](tanks,
+        case 'air12L': return inTanksSeed.air12L[$across](oldTanks,
             oldField => faceTextFieldConcern(oldField, concern.air12L),
         );
-        case 'air15L': return inTanksSeed.air15L[$across](tanks,
+        case 'air15L': return inTanksSeed.air15L[$across](oldTanks,
             oldField => faceTextFieldConcern(oldField, concern.air15L),
         );
-        case 'nitrox12L': return inTanksSeed.nitrox12L[$across](tanks,
+        case 'nitrox12L': return inTanksSeed.nitrox12L[$across](oldTanks,
             oldField => faceTextFieldConcern(oldField, concern.nitrox12L),
         );
         case 'nitrox15L': return inTanksSeed // <-- we work with TanksSeed!
             .nitrox15L[$across](
-                tanks, // <-- here is our seed, please use it
+                oldTanks, // <-- here is our seed, please use it
                 // ACROSS: oldValue => newValue
                 oldField => faceTextFieldConcern(oldField, concern.nitrox15L),
             );
+        case 'tanks-to-save': return oldTanks;
         default: return broke(concern);
     }
 }

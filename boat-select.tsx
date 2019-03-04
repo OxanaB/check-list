@@ -1,12 +1,17 @@
 import * as React from 'react';
+import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistSeed } from './divers-boat-checklist';
+import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistSeed } from './intro-boat-checklist';
 import { SelectField, SelectFieldConcern } from './select-field';
 import { broke } from './utils';
 
+export type BoatConcern = BoatChoiseConcern | DiversBoatChecklistConcern | IntroBoatChecklistConcern;
 
 export interface BoatSelectSeed {
     activeOption: string;
+    diversBoat: DiversBoatChecklistSeed;
+    introBoat: IntroBoatChecklistSeed;
 }
-export interface BoatConcern {
+export interface BoatChoiseConcern {
     about: 'choose-boat';
     boat: SelectFieldConcern;
 }
@@ -22,9 +27,16 @@ export class BoatSelect extends React.Component<BoatSelectProps> {
     }
     render() {
         const { seed: { activeOption } } = this.props;
+        const { seed: { tanks, weights, comment } } = this.props;
+        const diverBoatProps:
         return <>
             <SelectField options={boatOptions} when={this.whenBoatChoosen}
                 activeOption={activeOption} />
+            {
+                activeOption === 'divers-boat'
+                ? <DiversBoatChecklist />
+                : <IntroBoatChecklist />
+            }
         </>;
     }
 }

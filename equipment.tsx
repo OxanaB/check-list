@@ -3,9 +3,8 @@ import { $across, toStewardOf } from './stewarding';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 import { broke } from './utils';
 
-export type EquipmentConcern = EquipmentInternalConcern | EquipmentExternalConcern;
-export type EquipmentExternalConcern = EquipmentToSaveConcern;
-export type EquipmentInternalConcern =
+export type EquipmentConcern =
+    | EquipmentToSaveConcern
     | MasksConcern
     | SnorkelsConcern
     | BcdsConcern
@@ -122,31 +121,32 @@ export class Equipment extends React.Component<EquipmentProps> {
 export const inEquipmentSeed = toStewardOf<EquipmentSeed>();
 
 export function faceEquipmentInternalConcern(
-    equipment: EquipmentSeed,
-    concern: EquipmentInternalConcern,
+    oldEqiupment: EquipmentSeed,
+    concern: EquipmentConcern,
 ): EquipmentSeed {
     switch (concern.about) {
-        case 'masks': return inEquipmentSeed.masks[$across](equipment,
+        case 'masks': return inEquipmentSeed.masks[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.masks),
             );
-        case 'snorkels': return inEquipmentSeed.snorkels[$across](equipment,
+        case 'snorkels': return inEquipmentSeed.snorkels[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.snorkels),
             );
-        case 'bcds': return inEquipmentSeed.bcds[$across](equipment,
+        case 'bcds': return inEquipmentSeed.bcds[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.bcds),
             );
-        case 'regulators': return inEquipmentSeed.regulators[$across](equipment,
+        case 'regulators': return inEquipmentSeed.regulators[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.regulators),
             );
-        case 'shorties': return inEquipmentSeed.shorties[$across](equipment,
+        case 'shorties': return inEquipmentSeed.shorties[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.shorties),
             );
-        case 'fins': return inEquipmentSeed.fins[$across](equipment,
+        case 'fins': return inEquipmentSeed.fins[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.fins),
             );
-        case 'belts': return inEquipmentSeed.belts[$across](equipment,
+        case 'belts': return inEquipmentSeed.belts[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.belts),
             );
+        case 'equipment-to-save': return oldEqiupment;
         default: return broke(concern);
     }
 }

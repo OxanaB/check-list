@@ -3,11 +3,8 @@ import { $across, $on, toStewardOf } from './stewarding';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 import { broke } from './utils';
 
-export type WeightsConcern = WeightsInternalConcern | WeightsExternalConcern;
-
-export type WeightsExternalConcern = WeightsToSaveConcern;
-
-export type WeightsInternalConcern =
+export type WeightsConcern =
+    | WeightsToSaveConcern
     | OneKiloConcern
     | TwoKiloConcern
     | ThreeKiloConcern;
@@ -78,7 +75,7 @@ const inWeightsSeed = toStewardOf<WeightsSeed>();
 
 export function faceWeightsInternalConcern(
     oldWeights: WeightsSeed,
-    concern: WeightsInternalConcern,
+    concern: WeightsConcern,
 ): WeightsSeed {
     const weightsWithInput = takeUserInput(oldWeights, concern);
 
@@ -104,20 +101,21 @@ function toArrayOfPairsOfFieldAndFactor(weights: WeightsSeed) {
 }
 
 export function takeUserInput(
-    weights: WeightsSeed,
-    concern: WeightsInternalConcern,
+    oldWeights: WeightsSeed,
+    concern: WeightsConcern,
 ): WeightsSeed {
 
     switch (concern.about) {
         case '1-kilo-pieses': return inWeightsSeed.kiloPieces1[$across](
-            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces1),
+            oldWeights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces1),
         );
         case '2-kilo-pieses': return inWeightsSeed.kiloPieces2[$across](
-            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces2),
+            oldWeights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces2),
         );
         case '3-kilo-pieses': return inWeightsSeed.kiloPieces3[$across](
-            weights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces3),
+            oldWeights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces3),
         );
+        case 'weights-to-save': return oldWeights;
         default: return broke(concern);
     }
 }
