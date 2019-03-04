@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { Situation, SituationExternalConcern, SituationInternalConcern, SituationProps, SituationSeed } from './situation';
+import { IntroBoatSituation, IntroBoatSituationExternalConcern, IntroBoatSituationInternalConcern, IntroBoatSituationProps, IntroBoatSituationSeed } from './situation';
 import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
 
-export type ChecklistInternalConcern = SituationInternalConcern;
-export type ChecklistExternalConcern = SituationExternalConcern | ChoosenTabConcern;
-export type ChecklistConcern = ChecklistInternalConcern | ChecklistExternalConcern ;
+export type IntroBoatChecklistInternalConcern = IntroBoatSituationInternalConcern;
+export type IntroBoatChecklistExternalConcern = IntroBoatSituationExternalConcern | ChoosenTabConcern;
+export type IntroBoatChecklistConcern = IntroBoatChecklistInternalConcern | IntroBoatChecklistExternalConcern ;
 
-export interface ChecklistSeed {
+export interface IntroBoatChecklistSeed {
     allTabs: Tab[];
     activeTabId: number;
-    situation: SituationSeed;
+    situation: IntroBoatSituationSeed;
 }
-export interface ChecklistProps {
-    seed: ChecklistSeed;
-    when: (concern: ChecklistConcern) => void;
+export interface IntroBoatChecklistProps {
+    seed: IntroBoatChecklistSeed;
+    when: (concern: IntroBoatChecklistConcern) => void;
 }
-export class Checklist extends React.Component<ChecklistProps> {
+export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps> {
     render() {
         const { seed: { situation, allTabs, activeTabId } } = this.props;
         const tabsProps: TabsProps = {
@@ -25,7 +25,7 @@ export class Checklist extends React.Component<ChecklistProps> {
                 this.props.when(concern);
             },
         };
-        const situationProps: SituationProps = {
+        const situationProps: IntroBoatSituationProps = {
             seed: situation,
             when: concern => {
                 this.props.when(concern);
@@ -33,7 +33,7 @@ export class Checklist extends React.Component<ChecklistProps> {
         };
         return <div className="tabs-container">
             <Tabs {...tabsProps} />
-            <Situation {...situationProps} />
+            <IntroBoatSituation {...situationProps} />
         </div>;
     }
 }

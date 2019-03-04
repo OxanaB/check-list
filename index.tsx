@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Checklist, ChecklistConcern, ChecklistProps } from './checklist';
+import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps } from './checklist';
 import { allTabs, equipment, tanks, weights } from './data/tabs-data';
 import { EquipmentConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
-import { SituationSeed } from './situation';
+import { IntroBoatSituationSeed } from './situation';
 import { $atop, $on, toStewardOf } from './stewarding';
 import { Tab } from './tabTop';
 import { faceTanksInternalConcern, TanksConcern, TanksSeed } from './tanks';
@@ -20,7 +20,7 @@ interface AppState {
     activeTabId: number;
 }
 
-type AppConcern = ChecklistConcern;
+type AppConcern = IntroBoatChecklistConcern;
 
 class App extends React.Component<{}, AppState> {
 
@@ -34,7 +34,7 @@ class App extends React.Component<{}, AppState> {
 
     render() {
         const { state: { activeTabId, allTabs } } = this;
-        const props: ChecklistProps = {
+        const props: IntroBoatChecklistProps = {
             seed: {
                 activeTabId,
                 allTabs,
@@ -47,7 +47,7 @@ class App extends React.Component<{}, AppState> {
                 this.setState(newState);
             },
         };
-        return <Checklist {...props} />;
+        return <IntroBoatChecklist {...props} />;
     }
 }
 const inAppState = toStewardOf<AppState>();
@@ -94,7 +94,7 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     }
 }
 
-function pickSituationSeedByTabId(state: AppState, tabId: number): SituationSeed {
+function pickSituationSeedByTabId(state: AppState, tabId: number): IntroBoatSituationSeed {
     switch (tabId) {
         case 1001: return state.tanks;
         case 1002: return state.weights;

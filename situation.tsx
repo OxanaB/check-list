@@ -4,26 +4,26 @@ import { Tanks, TanksConcern, TanksExternalConcern, TanksInternalConcern, TanksS
 import { broke } from './utils';
 import { Weights, WeightsConcern, WeightsExternalConcern, WeightsInternalConcern, WeightsSeed } from './weights';
 
-export type SituationInternalConcern =
+export type IntroBoatSituationInternalConcern =
     | { about: 'tanks', tanks: TanksInternalConcern }
     | { about: 'weights', weights: WeightsInternalConcern }
     | { about: 'equipment', equipment: EquipmentInternalConcern };
 
 
-export type SituationExternalConcern = { about: 'tanks', tanks: TanksExternalConcern }
+export type IntroBoatSituationExternalConcern = { about: 'tanks', tanks: TanksExternalConcern }
     | { about: 'weights', weights: WeightsExternalConcern }
     | { about: 'equipment', equipment: EquipmentExternalConcern };
 
-export type SituationConcern = SituationInternalConcern | SituationExternalConcern;
+export type IntroBoatSituationConcern = IntroBoatSituationInternalConcern | IntroBoatSituationExternalConcern;
 
-export type SituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
+export type IntroBoatSituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
 
-export interface SituationProps {
-    seed: SituationSeed;
-    when: (concern: SituationConcern) => void;
+export interface IntroBoatSituationProps {
+    seed: IntroBoatSituationSeed;
+    when: (concern: IntroBoatSituationConcern) => void;
 }
 
-export class Situation extends React.Component<SituationProps> {
+export class IntroBoatSituation extends React.Component<IntroBoatSituationProps> {
 
     render() {
         const { seed, when } = this.props;
@@ -48,7 +48,7 @@ export class Situation extends React.Component<SituationProps> {
     }
 }
 
-function toSituationConcernFromEquipment(concern: EquipmentConcern): SituationConcern {
+function toSituationConcernFromEquipment(concern: EquipmentConcern): IntroBoatSituationConcern {
     if (concern.about === 'equipment-to-save') {
         return {about: 'equipment', equipment: concern };
     } else {
@@ -56,7 +56,7 @@ function toSituationConcernFromEquipment(concern: EquipmentConcern): SituationCo
     }
 }
 
-function toSituationConcernFromTanks(concern: TanksConcern): SituationConcern {
+function toSituationConcernFromTanks(concern: TanksConcern): IntroBoatSituationConcern {
     if (concern.about === 'tanks-to-save') {
         return { about: 'tanks', tanks: concern };
     } else {
@@ -65,7 +65,7 @@ function toSituationConcernFromTanks(concern: TanksConcern): SituationConcern {
 }
 
 
-function toSituationConcernFromWeights(concern: WeightsConcern): SituationConcern {
+function toSituationConcernFromWeights(concern: WeightsConcern): IntroBoatSituationConcern {
     if (concern.about === 'weights-to-save') {
         return { about: 'weights', weights: concern };
     } else {

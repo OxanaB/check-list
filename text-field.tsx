@@ -15,7 +15,7 @@ export class TextField extends React.Component<TextFieldProps> {
     }
     render() {
         const { seed: { text } } = this.props;
-        return <input onChange={this.whenChanged} value={text} />;
+        return <input onChange={this.whenChanged} value={text} placeholder="0"/>;
     }
 }
 
