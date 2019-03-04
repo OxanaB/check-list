@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistProps, DiversBoatChecklistSeed } from './divers-boat-checklist';
-import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed } from './intro-boat-checklist';
+import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistProps, DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './divers-boat-checklist';
+import { faceIntoBoatCheckListConsern, IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed, SituationSeed } from './intro-boat-checklist';
 import { SelectField, SelectFieldConcern } from './select-field';
+import { $across, toStewardOf } from './stewarding';
+import { Tab } from './tabTop';
 import { broke } from './utils';
 
-export type BoatConcern = BoatChoiseConcern | DiversBoatChecklistConcern | IntroBoatChecklistConcern;
-
-export interface BoatChoiseConcern {
-    about: 'choose-boat';
-    boat: SelectFieldConcern;
-}
+export type BoatSelectConcern =
+    | { about: 'divers-boat', diversBoat: DiversBoatChecklistConcern }
+    | { about: 'intro-boat', introBoat: IntroBoatChecklistConcern }
+    | SelectFieldConcern;
 
 export interface BoatSelectSeed {
     activeOption: string;
@@ -18,32 +18,34 @@ export interface BoatSelectSeed {
 }
 
 export interface BoatSelectProps {
+    allTabs: Tab[];
+    situation: SituationSeed;
     seed: BoatSelectSeed;
-    when: (concern: BoatConcern) => void;
+    when: (concern: BoatSelectConcern) => void;
 }
 
 const boatOptions = ['divers boat', 'intro boat'];
 export class BoatSelect extends React.Component<BoatSelectProps> {
-    private whenBoatChoosen = (concern: SelectFieldConcern) => {
-        this.props.when({ about: 'choose-boat', boat: concern });
-    }
     render() {
         const { seed: { activeOption, diversBoat, introBoat } } = this.props;
+        const { allTabs, situation } = this.props;
         const diversBoatProps: DiversBoatChecklistProps = {
             seed: diversBoat,
             when: concern => {
-                this.props.when(concern);
+                this.props.when({ about: 'divers-boat', diversBoat: concern });
             },
         };
         const introBoatProps: IntroBoatChecklistProps = {
-            seed: introBoat,
+            situation, allTabs, seed: introBoat,
             when: concern => {
-                this.props.when(concern);
+                this.props.when({ about: 'intro-boat', introBoat: concern });
             },
         };
         return <>
-            <SelectField options={boatOptions} when={this.whenBoatChoosen}
-                activeOption={activeOption} />
+            <SelectField options={boatOptions} when={concern => {
+                this.props.when(concern);
+            }}
+            activeOption={activeOption} />
             {
                 activeOption === 'divers-boat'
                     ? <DiversBoatChecklist {...diversBoatProps} />
@@ -53,17 +55,26 @@ export class BoatSelect extends React.Component<BoatSelectProps> {
     }
 }
 
+const inBoatSelectSeed = toStewardOf<BoatSelectSeed>();
+
 export function faceBoatSelectConcern(
-    oldBoatProps: BoatSelectSeed,
-    concern: BoatConcern,
+    oldSeed: BoatSelectSeed,
+    concern: BoatSelectConcern,
 ): BoatSelectSeed {
     switch (concern.about) {
-        case 'choose-boat': {
-            const { diversBoat, introBoat } = oldBoatProps;
+        case 'divers-boat': return inBoatSelectSeed.diversBoat[$across](
+            oldSeed,
+            oldData => faceDiversBoatChecklistConcern(oldData, concern.diversBoat),
+        );
+        case 'intro-boat': return inBoatSelectSeed.introBoat[$across](
+            oldSeed,
+            oldData => faceIntoBoatCheckListConsern(oldData, concern.introBoat),
+        );
+        case 'selected-option': {
             return {
-                ...diversBoat, ...introBoat, activeOption: concern.boat,
+                ...oldSeed, activeOption: concern.activeOption,
             };
         }
-        default: return broke(concern.about);
+        default: return broke(concern);
     }
 }

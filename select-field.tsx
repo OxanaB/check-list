@@ -23,7 +23,7 @@ export class SelectField extends React.Component<SelectFieldProps> {
             <select defaultValue={activeOption} onSelect={this.whenSelected}>
                 {
                     options.map(option => {
-                        return <option value={option}>{option}</option>;
+                        return <option key={option} value={option}>{option}</option>;
                     })
                 }
             </select>
