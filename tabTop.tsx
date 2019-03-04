@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-export type TabsConcern = ChoosenTabConcern;
 export interface Tab {
     title: string;
 }
@@ -8,10 +7,11 @@ export interface ChoosenTabConcern {
     about: 'tab-choosen';
     activeTab: Tab;
 }
+
 export interface TabsProps {
-    activeTabId: string;
     allTabs: Tab[];
-    when: (concern: TabsConcern) => void;
+    activeTabId: string;
+    when: (concern: ChoosenTabConcern) => void;
 }
 
 export class Tabs extends React.Component<TabsProps> {
