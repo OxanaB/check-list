@@ -150,3 +150,42 @@ export function faceEquipmentInternalConcern(
         default: return broke(concern);
     }
 }
+
+export const equipment: EquipmentSeed = {
+    kind: 'equipment',
+    masks: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    snorkels: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    bcds: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    regulators: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    shorties: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    fins: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    belts: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+};

@@ -8,7 +8,7 @@ export type IntroBoatChecklistConcern = IntroBoatChecklistInternalConcern | Intr
 
 export interface IntroBoatChecklistSeed {
     allTabs: Tab[];
-    activeTabId: number;
+    activeTabId: string;
     situation: IntroBoatSituationSeed;
 }
 export interface IntroBoatChecklistProps {

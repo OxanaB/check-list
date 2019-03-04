@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps } from './checklist';
-import { allTabs, equipment, tanks, weights } from './data/tabs-data';
-import { EquipmentConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
+import { equipment, EquipmentConcern, EquipmentSeed, faceEquipmentInternalConcern } from './equipment';
+import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps } from './intro-boat-checklist';
 import { IntroBoatSituationSeed } from './situation';
 import { $atop, $on, toStewardOf } from './stewarding';
-import { Tab } from './tabTop';
-import { faceTanksInternalConcern, TanksConcern, TanksSeed } from './tanks';
+import { allTabs, Tab } from './tabTop';
+import { faceTanksInternalConcern, tanks, TanksConcern, TanksSeed } from './tanks';
 import { broke, crash, to } from './utils';
-import { faceWeightsInternalConcern, WeightsConcern, WeightsSeed } from './weights';
+import { faceWeightsInternalConcern, weights, WeightsConcern, WeightsSeed } from './weights';
 
 
 
@@ -17,7 +16,7 @@ interface AppState {
     tanks: TanksSeed;
     equipment: EquipmentSeed;
     allTabs: Tab[];
-    activeTabId: number;
+    activeTabId: string;
 }
 
 type AppConcern = IntroBoatChecklistConcern;
@@ -25,7 +24,7 @@ type AppConcern = IntroBoatChecklistConcern;
 class App extends React.Component<{}, AppState> {
 
     state = to<AppState>({
-        activeTabId: allTabs[0].id,
+        activeTabId: allTabs[0].title,
         allTabs,
         equipment,
         tanks,
@@ -82,7 +81,7 @@ function faceTanksConcern(oldState: AppState, concern: TanksConcern): AppState {
 function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     switch (concern.about) {
         case 'tab-choosen': {
-            const activeTabId = concern.activeTab.id;
+            const activeTabId = concern.activeTab.title;
             return inAppState[$atop](oldState, {
                 activeTabId,
             });
@@ -94,11 +93,11 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     }
 }
 
-function pickSituationSeedByTabId(state: AppState, tabId: number): IntroBoatSituationSeed {
+function pickSituationSeedByTabId(state: AppState, tabId: string): IntroBoatSituationSeed {
     switch (tabId) {
-        case 1001: return state.tanks;
-        case 1002: return state.weights;
-        case 1003: return state.equipment;
+        case 'Tanks': return state.tanks;
+        case 'Weights': return state.weights;
+        case 'Equipment': return state.equipment;
         default: return crash('Invalid tab id.');
     }
 

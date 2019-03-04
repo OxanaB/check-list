@@ -8,22 +8,22 @@ export type WeightsConcern = WeightsInternalConcern | WeightsExternalConcern;
 export type WeightsExternalConcern = WeightsToSaveConcern;
 
 export type WeightsInternalConcern =
-    | WhenOneKiloPiecesConcern
-    | WhenTwoKiloPiecesConcern
-    | WhenThreeKiloPiecesConcern;
+    | OneKiloConcern
+    | TwoKiloConcern
+    | ThreeKiloConcern;
 
 export interface WeightsToSaveConcern {
     about: 'weights-to-save';
 }
-export interface WhenOneKiloPiecesConcern {
+export interface OneKiloConcern {
     about: '1-kilo-pieses';
     kiloPieces1: TextFieldConcern;
 }
-export interface WhenTwoKiloPiecesConcern {
+export interface TwoKiloConcern {
     about: '2-kilo-pieses';
     kiloPieces2: TextFieldConcern;
 }
-export interface WhenThreeKiloPiecesConcern {
+export interface ThreeKiloConcern {
     about: '3-kilo-pieses';
     kiloPieces3: TextFieldConcern;
 }
@@ -121,3 +121,23 @@ export function takeUserInput(
         default: return broke(concern);
     }
 }
+
+export const weights: WeightsSeed = {
+    kind: 'weights',
+    kiloPieces1: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    kiloPieces2: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    kiloPieces3: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    totalWeights: 0,
+};

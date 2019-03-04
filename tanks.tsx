@@ -9,27 +9,27 @@ export type TanksExternalConcern =
     | TanksToSaveConcern;
 
 export type TanksInternalConcern =
-    | WhenAir12LConsern
-    | WhenAir15LConsern
-    | WhenNitrox12LConsern
-    | WhenNitrox15LConsern;
+    | Air12LConsern
+    | Air15LConsern
+    | Nitrox12LConsern
+    | Nitrox15LConsern;
 
 export interface TanksToSaveConcern {
     about: 'tanks-to-save';
 }
-export interface WhenAir12LConsern {
+export interface Air12LConsern {
     about: 'air12L';
     air12L: TextFieldConcern;
 }
-export interface WhenAir15LConsern {
+export interface Air15LConsern {
     about: 'air15L';
     air15L: TextFieldConcern;
 }
-export interface WhenNitrox12LConsern {
+export interface Nitrox12LConsern {
     about: 'nitrox12L';
     nitrox12L: TextFieldConcern;
 }
-export interface WhenNitrox15LConsern {
+export interface Nitrox15LConsern {
     about: 'nitrox15L';
     nitrox15L: TextFieldConcern;
 }
@@ -112,3 +112,27 @@ export function faceTanksInternalConcern(
         default: return broke(concern);
     }
 }
+
+export const tanks: TanksSeed = {
+    kind: 'tanks',
+    air12L: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    air15L: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    nitrox12L: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+    nitrox15L: {
+        value: 0,
+        text: '',
+        error: '',
+    },
+};
