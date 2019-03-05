@@ -15,10 +15,10 @@ export interface BoatSelectSeed {
     activeOption: string;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
+    allTabs: Tab[];
 }
 
 export interface BoatSelectProps {
-    allTabs: Tab[];
     situation: SituationSeed;
     seed: BoatSelectSeed;
     when: (concern: BoatSelectConcern) => void;
@@ -28,7 +28,7 @@ const boatOptions = ['divers boat', 'intro boat'];
 export class BoatSelect extends React.Component<BoatSelectProps> {
     render() {
         const { seed: { activeOption, diversBoat, introBoat } } = this.props;
-        const { allTabs, situation } = this.props;
+        const { situation } = this.props;
         const diversBoatProps: DiversBoatChecklistProps = {
             seed: diversBoat,
             when: concern => {
@@ -36,7 +36,7 @@ export class BoatSelect extends React.Component<BoatSelectProps> {
             },
         };
         const introBoatProps: IntroBoatChecklistProps = {
-            situation, allTabs, seed: introBoat,
+            situation, seed: introBoat,
             when: concern => {
                 this.props.when({ about: 'intro-boat', introBoat: concern });
             },

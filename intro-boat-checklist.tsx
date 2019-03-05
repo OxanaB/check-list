@@ -19,10 +19,10 @@ export interface IntroBoatChecklistSeed {
     weights: WeightsSeed;
     equipment: EquipmentSeed;
     activeTabId: string;
+    allTabs: Tab[];
 }
 
 export interface IntroBoatChecklistProps {
-    allTabs: Tab[];
     situation: SituationSeed;
     seed: IntroBoatChecklistSeed;
     when: (concern: IntroBoatChecklistConcern) => void;
@@ -47,8 +47,8 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
     }
 
     render() {
-        const { seed: { activeTabId } } = this.props;
-        const { allTabs, situation } = this.props;
+        const { seed: { activeTabId, allTabs } } = this.props;
+        const { situation } = this.props;
         const tabsProps: TabsProps = {
             activeTabId,
             allTabs,

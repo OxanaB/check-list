@@ -1,44 +1,39 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
-import { IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps } from './intro-boat-checklist';
-import { IntroBoatSituationSeed } from './intro-boat-situation';
-import { $atop, $on, toStewardOf } from './stewarding';
+import { BoatSelect, BoatSelectConcern, BoatSelectProps } from './boat-select';
+import { DiversBoatChecklistSeed } from './divers-boat-checklist';
+import { IntroBoatChecklistSeed, SituationSeed } from './intro-boat-checklist';
+import { $atop, toStewardOf } from './stewarding';
 import { allTabs, Tab } from './tabTop';
-import { faceTanksInternalConcern, tanks, TanksConcern, TanksSeed } from './tanks';
-import { broke, crash, to } from './utils';
-import { faceWeightsInternalConcern, weights, WeightsConcern, WeightsSeed } from './weights';
-
-
-
+import { broke, to } from './utils';
 
 interface AppState {
-    weights: WeightsSeed;
-    tanks: TanksSeed;
-    equipment: EquipmentSeed;
+    activeOption: string;
     allTabs: Tab[];
-    activeTabId: string;
+    situation: SituationSeed;
+    diversBoat: DiversBoatChecklistSeed;
+    introBoat: IntroBoatChecklistSeed;
 }
 
-type AppConcern = IntroBoatChecklistConcern;
+type AppConcern = BoatSelectConcern;
 
 class App extends React.Component<{}, AppState> {
 
     state = to<AppState>({
-        activeTabId: allTabs[0].title,
+        activeOption: '',
         allTabs,
-        equipment,
-        tanks,
-        weights,
+        diversBoat,
+        introBoat,
+        situation,
+        when,
     });
 
     render() {
-        const { state: { activeTabId, allTabs } } = this;
-        const props: IntroBoatChecklistProps = {
+        const { state: { activeOption, allTabs, situation, diversBoat, introBoat } } = this;
+        const props: BoatSelectProps = {
+            situation,
             seed: {
-                activeTabId,
-                allTabs,
-                situation: pickSituationSeedByTabId(this.state, activeTabId),
+                activeOption, diversBoat, introBoat, allTabs,
             },
             when: concern => {
                 const oldState = this.state;
@@ -47,62 +42,28 @@ class App extends React.Component<{}, AppState> {
                 this.setState(newState);
             },
         };
-        return <IntroBoatChecklist {...props} />;
+        return <BoatSelect {...props} />;
     }
 }
 const inAppState = toStewardOf<AppState>();
 
-function faceEquipmentConcern(oldState: AppState, concern: EquipmentConcern): AppState {
-    const situation = pickSituationSeedByTabId(oldState, oldState.activeTabId);
-    if (situation.kind !== 'equipment') return crash('!!!');
-    if (concern.about === 'equipment-to-save') return oldState;
-    const newEquipment = faceEquipmentConcern(situation, concern);
-    const newState = inAppState.equipment[$on](oldState, newEquipment);
-    return newState;
-}
-
-function faceWeightsConcern(oldState: AppState, concern: WeightsConcern): AppState {
-    const situation = pickSituationSeedByTabId(oldState, oldState.activeTabId);
-    if (situation.kind !== 'weights') return crash('!!!');
-    if (concern.about === 'weights-to-save') return oldState;
-    const newEquipment = faceWeightsInternalConcern(situation, concern);
-    const newState = inAppState.weights[$on](oldState, newEquipment);
-    return newState;
-}
-
-function faceTanksConcern(oldState: AppState, concern: TanksConcern): AppState {
-    const situation = pickSituationSeedByTabId(oldState, oldState.activeTabId);
-    if (situation.kind !== 'tanks') return crash('!!!');
-    if (concern.about === 'tanks-to-save') return oldState;
-    const newEquipment = faceTanksInternalConcern(situation, concern);
-    const newState = inAppState.tanks[$on](oldState, newEquipment);
-    return newState;
-}
-
 function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     switch (concern.about) {
-        case 'tab-choosen': {
-            const activeTabId = concern.activeTab.title;
+        case 'selected-option': {
+            const choosenBoat = concern.activeOption;
             return inAppState[$atop](oldState, {
-                activeTabId,
+                ...oldState, activeOption: choosenBoat,
             });
         }
-        case 'equipment': return faceEquipmentConcern(oldState, concern.equipment);
-        case 'weights': return faceWeightsConcern(oldState, concern.weights);
-        case 'tanks': return faceTanksConcern(oldState, concern.tanks);
+        case 'divers-boat': {
+            return inAppState.diversBoat[$atop](oldState, {
+                });
+        }
+        case 'intro-boat': return inAppState.introBoat[$atop](oldState, {
+
+        });
         default: return broke(concern);
     }
 }
-
-function pickSituationSeedByTabId(state: AppState, tabId: string): IntroBoatSituationSeed {
-    switch (tabId) {
-        case 'Tanks': return state.tanks;
-        case 'Weights': return state.weights;
-        case 'Equipment': return state.equipment;
-        default: return crash('Invalid tab id.');
-    }
-
-}
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
