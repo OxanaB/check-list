@@ -9,14 +9,13 @@ export interface ChoosenTabConcern {
 }
 
 export interface TabsProps {
-    allTabs: Tab[];
     activeTabId: string;
     when: (concern: ChoosenTabConcern) => void;
 }
 
 export class Tabs extends React.Component<TabsProps> {
     render() {
-        const { activeTabId, allTabs } = this.props;
+        const { activeTabId } = this.props;
         return <div className="tabs-top">
             {allTabs.map(tab => {
                 return <a href="" key={tab.title}

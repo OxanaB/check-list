@@ -7,20 +7,19 @@ export interface SelectFieldConcern {
 
 export interface SelectFieldProps {
     options: string[];
-    activeOption: string;
     when: (concern: SelectFieldConcern) => void;
 }
 
 export class SelectField extends React.Component<SelectFieldProps> {
     private whenSelected: React.ChangeEventHandler<HTMLSelectElement> = e => {
         const { when } = this.props;
-        const choosenOption = e.currentTarget.id;
+        const choosenOption = e.currentTarget.value;
         when({ about: 'selected-option', activeOption: choosenOption });
     }
     render() {
-        const { options, activeOption } = this.props;
+        const { options } = this.props;
         return <>
-            <select defaultValue={activeOption} onSelect={this.whenSelected}>
+            <select onChange={this.whenSelected}>
                 {
                     options.map(option => {
                         return <option key={option} value={option}>{option}</option>;

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistProps, DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './divers-boat-checklist';
-import { faceIntoBoatCheckListConsern, IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed, SituationSeed } from './intro-boat-checklist';
+import { faceIntoBoatCheckListConsern, IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed } from './intro-boat-checklist';
 import { SelectField, SelectFieldConcern } from './select-field';
 import { $across, toStewardOf } from './stewarding';
-import { Tab } from './tabTop';
 import { broke } from './utils';
 
 export type BoatSelectConcern =
@@ -15,11 +14,9 @@ export interface BoatSelectSeed {
     activeOption: string;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
-    allTabs: Tab[];
 }
 
 export interface BoatSelectProps {
-    situation: SituationSeed;
     seed: BoatSelectSeed;
     when: (concern: BoatSelectConcern) => void;
 }
@@ -28,7 +25,6 @@ const boatOptions = ['divers boat', 'intro boat'];
 export class BoatSelect extends React.Component<BoatSelectProps> {
     render() {
         const { seed: { activeOption, diversBoat, introBoat } } = this.props;
-        const { situation } = this.props;
         const diversBoatProps: DiversBoatChecklistProps = {
             seed: diversBoat,
             when: concern => {
@@ -36,16 +32,16 @@ export class BoatSelect extends React.Component<BoatSelectProps> {
             },
         };
         const introBoatProps: IntroBoatChecklistProps = {
-            situation, seed: introBoat,
+            seed: introBoat,
             when: concern => {
                 this.props.when({ about: 'intro-boat', introBoat: concern });
             },
         };
         return <>
+            Choose the boat you on
             <SelectField options={boatOptions} when={concern => {
                 this.props.when(concern);
-            }}
-            activeOption={activeOption} />
+            }} />
             {
                 activeOption === 'divers-boat'
                     ? <DiversBoatChecklist {...diversBoatProps} />

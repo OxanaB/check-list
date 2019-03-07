@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
+import { Equipment, equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
 import { $across, toStewardOf } from './stewarding';
-import { ChoosenTabConcern, Tab, Tabs, TabsProps } from './tabTop';
-import { faceTanksConcern, Tanks, TanksConcern, TanksSeed } from './tanks';
+import { ChoosenTabConcern, Tabs, TabsProps } from './tabTop';
+import { faceTanksConcern, Tanks, tanks, TanksConcern, TanksSeed } from './tanks';
 import { broke } from './utils';
-import { faceWeightsConcern, Weights, WeightsConcern, WeightsSeed } from './weights';
+import { faceWeightsConcern, Weights, weights, WeightsConcern, WeightsSeed } from './weights';
 
 export type IntroBoatChecklistConcern =
     | { about: 'tanks', tanks: TanksConcern }
@@ -12,53 +12,50 @@ export type IntroBoatChecklistConcern =
     | { about: 'equipment', equipment: EquipmentConcern }
     | ChoosenTabConcern;
 
-export type SituationSeed = TanksSeed | WeightsSeed | EquipmentSeed;
+export type ShowTabDataSeed = TanksSeed | WeightsSeed | EquipmentSeed;
 
 export interface IntroBoatChecklistSeed {
     tanks: TanksSeed;
     weights: WeightsSeed;
     equipment: EquipmentSeed;
     activeTabId: string;
-    allTabs: Tab[];
+    toShowTabData: ShowTabDataSeed;
 }
 
 export interface IntroBoatChecklistProps {
-    situation: SituationSeed;
     seed: IntroBoatChecklistSeed;
     when: (concern: IntroBoatChecklistConcern) => void;
 }
 
 export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps> {
 
-    renderSituation(seed: SituationSeed) {
-        const { when } = this.props;
-        switch (seed.kind) {
+    renderSituation() {
+        const { when, seed } = this.props;
+        switch (seed.toShowTabData.kind) {
             case 'equipment': return <Equipment
-                seed={seed} when={concern => when({ about: 'equipment', equipment: concern })}
+                seed={equipment} when={concern => when({ about: 'equipment', equipment: concern })}
             />;
             case 'tanks': return <Tanks
-                seed={seed} when={concern => when({ about: 'tanks', tanks: concern })}
+                seed={tanks} when={concern => when({ about: 'tanks', tanks: concern })}
             />;
             case 'weights': return <Weights
-                seed={seed} when={concern => when({ about: 'weights', weights: concern })}
+                seed={weights} when={concern => when({ about: 'weights', weights: concern })}
             />;
-            default: return broke(seed);
+            default: return broke(seed.toShowTabData);
         }
     }
 
     render() {
-        const { seed: { activeTabId, allTabs } } = this.props;
-        const { situation } = this.props;
+        const { seed: { activeTabId } } = this.props;
         const tabsProps: TabsProps = {
             activeTabId,
-            allTabs,
             when: concern => {
                 this.props.when(concern);
             },
         };
         return <div className="tabs-container">
             <Tabs {...tabsProps} />
-            {this.renderSituation(situation)}
+            {this.renderSituation()}
         </div>;
     }
 }
@@ -72,20 +69,21 @@ export function faceIntoBoatCheckListConsern(
     switch (concern.about) {
         case 'tab-choosen': {
             return {
-                ...oldSeed, activeTabId: concern.activeTabId,
+                ...oldSeed,
+                activeTabId: concern.activeTabId,
             };
         }
         case 'equipment': return inIntroBoatChecklistSeed.equipment[$across](
             oldSeed,
-            oldGear => faceEquipmentConcern(oldGear, concern.equipment),
-        );
-        case 'weights': return inIntroBoatChecklistSeed.weights[$across](
-            oldSeed,
-            oldWeights => faceWeightsConcern(oldWeights, concern.weights),
+            oldEquipment => faceEquipmentConcern(oldEquipment, concern.equipment),
         );
         case 'tanks': return inIntroBoatChecklistSeed.tanks[$across](
             oldSeed,
             oldTanks => faceTanksConcern(oldTanks, concern.tanks),
+        );
+        case 'weights': return inIntroBoatChecklistSeed.weights[$across](
+            oldSeed,
+            oldWeights => faceWeightsConcern(oldWeights, concern.weights),
         );
         default: return broke(concern);
     }
