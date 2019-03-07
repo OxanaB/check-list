@@ -66,7 +66,9 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
         };
         return <div className="tabs-container">
             <Tabs {...tabsProps} />
-            {this.renderSituation()}
+            <div className="tabs-content">
+                {this.renderSituation()}
+            </div>
         </div>;
     }
 }

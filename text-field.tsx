@@ -14,8 +14,15 @@ export class TextField extends React.Component<TextFieldProps> {
         when({ about: 'changed-text', text });
     }
     render() {
-        const { seed: { text } } = this.props;
-        return <input onChange={this.whenChanged} value={text} placeholder="0"/>;
+        const { seed: { text, error } } = this.props;
+        return <>
+            <input onChange={this.whenChanged} value={text} placeholder="0" />
+            {
+                error !== ''
+                    ? <div className="input-error">{error}</div>
+                    : null
+            }
+        </>;
     }
 }
 
@@ -37,9 +44,11 @@ export function faceTextFieldConcern(
             const value = parseInt(text, 10);
             if (isNaN(value)) {
                 // cannot parse
-                return { text,
+                return {
+                    text,
                     value: null, // OXANA: can be old value or null or default value
-                    error: 'Invalid number.' };
+                    error: 'Invalid number',
+                };
             } else {
                 // parsed
                 return { text, value, error: '' };

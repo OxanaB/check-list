@@ -43,11 +43,15 @@ export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProp
                 this.props.when({ about: 'weights', weights: concern });
             },
         };
-        return <div className="wisard">
+        return <div className="divers-boat">
+            <h2>Tanks</h2>
             <Tanks {...tanksProps} />
+            <h2>Weights</h2>
             <Weights {...weightsProps} />
-            <div>Comments about broken equipment
-                <textarea onChange={this.whenCommentedDiversChecklist} /></div>
+            Comments about broken equipment
+            <div>
+                <textarea onChange={this.whenCommentedDiversChecklist} />
+            </div>
         </div>;
     }
 }

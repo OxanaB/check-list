@@ -84,9 +84,7 @@ export class Equipment extends React.Component<EquipmentProps> {
     }
     render() {
         const { seed: { masks, snorkels, bcds, regulators, shorties, fins, belts } } = this.props;
-        return <div className="checklist-form">
-            <h2>Equipment</h2>
-            <form>
+        return <form>
                 <label>Masks
                     <TextField seed={masks} when={this.whenMasks}/>
                 </label>
@@ -113,8 +111,7 @@ export class Equipment extends React.Component<EquipmentProps> {
                         about: 'equipment-to-save',
                     });
                 }}>SAVE</button>
-            </form>
-        </div>;
+            </form>;
     }
 }
 

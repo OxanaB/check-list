@@ -21,14 +21,51 @@ a {
     color: #000;
     text-decoration: none;
 }
-button {
-    width: 250px;
+form {
+    max-width: 420px;
+
+    label {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    input {
+        flex: 1;
+        height: 30px;
+        margin-left: 10px;
+
+        &::placeholder {
+           font-style: italic;
+        }
+    }
+    .input-error {
+        margin-left: 5px;
+        color: #ff0000;
+        font-style: italic;
+        font-size: 12px;
+    }
+    button {
+        width: 250px;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+.divers-boat {
     border-radius: 5px;
+    border: 1px solid @border-color;
     padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px;
+    text-area {
+        height: 60px;
+        max-width: 358px;
+        width: fit-content;
+    }
 }
 
 @import './tabs.less';

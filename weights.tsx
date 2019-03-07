@@ -48,9 +48,7 @@ export class Weights extends React.Component<WeightsProps> {
     }
     render() {
         const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights } } = this.props;
-        return <div className="checklist-form">
-            <h2>Weights</h2>
-            <form>
+        return <form>
                 <label>1 kilo pieces
                     <TextField seed={kiloPieces1} when={this.whenOneKiloPieces} />
                 </label>
@@ -66,8 +64,7 @@ export class Weights extends React.Component<WeightsProps> {
                         about: 'weights-to-save',
                     });
                 }}>SAVE</button>
-            </form>
-        </div>;
+            </form>;
     }
 }
 

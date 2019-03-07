@@ -58,9 +58,7 @@ export class Tanks extends React.Component<TanksProps> {
 
     render() {
         const { seed: { air12L, air15L, nitrox12L, nitrox15L } } = this.props;
-        return <div className="checklist-form">
-            <h2>Tanks</h2>
-            <form >
+        return <form >
                 <label> air 12L
                     <TextField seed={air12L} when={this.whenAir12L} />
                 </label>
@@ -78,8 +76,7 @@ export class Tanks extends React.Component<TanksProps> {
                         about: 'tanks-to-save',
                     });
                 }}>SAVE</button>
-            </form>
-        </div>;
+            </form>;
     }
 }
 
