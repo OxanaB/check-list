@@ -36,7 +36,7 @@ class App extends React.Component<{}, AppState> {
             },
         },
         introBoat: {
-            activeTabId: 'tanks',
+            activeTabKind: 'tanks',
             tanks: {
                 kind: 'tanks',
                 air12L: { value: null, text: '0', error: '' },

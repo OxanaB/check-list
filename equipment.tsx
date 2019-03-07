@@ -148,7 +148,7 @@ export function faceEquipmentConcern(
     }
 }
 
-export const equipment: EquipmentSeed = {
+export const defaultEquipment: EquipmentSeed = {
     kind: 'equipment',
     masks: {
         value: 0,

@@ -117,7 +117,7 @@ export function takeUserInput(
     }
 }
 
-export const weights: WeightsSeed = {
+export const defaultWeights: WeightsSeed = {
     kind: 'weights',
     kiloPieces1: {
         value: 0,

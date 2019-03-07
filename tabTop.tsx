@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ActiveTabId } from './intro-boat-checklist';
+import { ActiveTabKind } from './intro-boat-checklist';
 
 export interface Tab {
-    kind: ActiveTabId;
+    kind: ActiveTabKind;
     title: string;
 }
 export interface ChoosenTabConcern {
     about: 'tab-choosen';
-    activeTabId: ActiveTabId;
+    activeTabId: ActiveTabKind;
 }
 
 export interface TabsProps {

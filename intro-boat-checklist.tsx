@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Equipment, equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
+import { Equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
 import { $across, toStewardOf } from './stewarding';
 import { ChoosenTabConcern, Tabs, TabsProps } from './tabTop';
-import { faceTanksConcern, Tanks, tanks, TanksConcern, TanksSeed } from './tanks';
+import { faceTanksConcern, Tanks, TanksConcern, TanksSeed } from './tanks';
 import { broke } from './utils';
-import { faceWeightsConcern, Weights, weights, WeightsConcern, WeightsSeed } from './weights';
+import { faceWeightsConcern, Weights, WeightsConcern, WeightsSeed } from './weights';
 
 export type IntroBoatChecklistConcern =
     | { about: 'tanks', tanks: TanksConcern }
@@ -13,22 +13,22 @@ export type IntroBoatChecklistConcern =
     | ChoosenTabConcern;
 
 export type ShowTabDataSeed = TanksSeed | WeightsSeed | EquipmentSeed;
-export type ActiveTabId = ShowTabDataSeed['kind'];
+export type ActiveTabKind = ShowTabDataSeed['kind'];
 
 export interface IntroBoatChecklistSeed {
     tanks: TanksSeed;
     weights: WeightsSeed;
     equipment: EquipmentSeed;
-    activeTabId: ActiveTabId;
+    activeTabKind: ActiveTabKind;
 }
 
 function pickContentByActiveTabId(seed: IntroBoatChecklistSeed): ShowTabDataSeed {
-    const { activeTabId, equipment, tanks, weights } = seed;
-    switch (activeTabId) {
+    const { activeTabKind, equipment, tanks, weights } = seed;
+    switch (activeTabKind) {
         case 'equipment': return equipment;
         case 'tanks': return tanks;
         case 'weights': return weights;
-        default: return broke(activeTabId);
+        default: return broke(activeTabKind);
     }
 }
 
@@ -41,23 +41,23 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
 
     renderSituation() {
         const { when, seed } = this.props;
-        const situation = pickContentByActiveTabId(seed);
-        switch (situation.kind) {
+        const activeTabContent = pickContentByActiveTabId(seed);
+        switch (activeTabContent.kind) {
             case 'equipment': return <Equipment
-                seed={equipment} when={concern => when({ about: 'equipment', equipment: concern })}
+                seed={activeTabContent} when={concern => when({ about: 'equipment', equipment: concern })}
             />;
             case 'tanks': return <Tanks
-                seed={tanks} when={concern => when({ about: 'tanks', tanks: concern })}
+                seed={activeTabContent} when={concern => when({ about: 'tanks', tanks: concern })}
             />;
             case 'weights': return <Weights
-                seed={weights} when={concern => when({ about: 'weights', weights: concern })}
+                seed={activeTabContent} when={concern => when({ about: 'weights', weights: concern })}
             />;
-            default: return broke(situation);
+            default: return broke(activeTabContent);
         }
     }
 
     render() {
-        const { seed: { activeTabId } } = this.props;
+        const { seed: { activeTabKind: activeTabId } } = this.props;
         const tabsProps: TabsProps = {
             activeTabId,
             when: concern => {
@@ -83,7 +83,7 @@ export function faceIntoBoatCheckListConsern(
         case 'tab-choosen': {
             return {
                 ...oldSeed,
-                activeTabId: concern.activeTabId,
+                activeTabKind: concern.activeTabId,
             };
         }
         case 'equipment': return inIntroBoatChecklistSeed.equipment[$across](

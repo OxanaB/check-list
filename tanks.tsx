@@ -107,7 +107,7 @@ export function faceTanksConcern(
     }
 }
 
-export const tanks: TanksSeed = {
+export const defaultTanks: TanksSeed = {
     kind: 'tanks',
     air12L: {
         value: 0,
