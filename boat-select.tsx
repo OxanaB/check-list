@@ -43,7 +43,7 @@ export class BoatSelect extends React.Component<BoatSelectProps> {
                 this.props.when(concern);
             }} />
             {
-                activeOption === 'divers-boat'
+                activeOption === 'divers boat'
                     ? <DiversBoatChecklist {...diversBoatProps} />
                     : <IntroBoatChecklist {...introBoatProps} />
             }
