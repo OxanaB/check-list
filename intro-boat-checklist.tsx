@@ -13,13 +13,23 @@ export type IntroBoatChecklistConcern =
     | ChoosenTabConcern;
 
 export type ShowTabDataSeed = TanksSeed | WeightsSeed | EquipmentSeed;
+export type ActiveTabId = ShowTabDataSeed['kind'];
 
 export interface IntroBoatChecklistSeed {
     tanks: TanksSeed;
     weights: WeightsSeed;
     equipment: EquipmentSeed;
-    activeTabId: string;
-    toShowTabData: ShowTabDataSeed;
+    activeTabId: ActiveTabId;
+}
+
+function pickContentByActiveTabId(seed: IntroBoatChecklistSeed): ShowTabDataSeed {
+    const { activeTabId, equipment, tanks, weights } = seed;
+    switch (activeTabId) {
+        case 'equipment': return equipment;
+        case 'tanks': return tanks;
+        case 'weights': return weights;
+        default: return broke(activeTabId);
+    }
 }
 
 export interface IntroBoatChecklistProps {
@@ -31,7 +41,8 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
 
     renderSituation() {
         const { when, seed } = this.props;
-        switch (seed.toShowTabData.kind) {
+        const situation = pickContentByActiveTabId(seed);
+        switch (situation.kind) {
             case 'equipment': return <Equipment
                 seed={equipment} when={concern => when({ about: 'equipment', equipment: concern })}
             />;
@@ -41,7 +52,7 @@ export class IntroBoatChecklist extends React.Component<IntroBoatChecklistProps>
             case 'weights': return <Weights
                 seed={weights} when={concern => when({ about: 'weights', weights: concern })}
             />;
-            default: return broke(seed.toShowTabData);
+            default: return broke(situation);
         }
     }
 

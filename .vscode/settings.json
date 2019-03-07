@@ -27,10 +27,10 @@
     },
     "tslint.autoFixOnSave": true,
     "editor.tabSize": 4,
+    "editor.snippetSuggestions": "none",
     "editor.detectIndentation": false,
     "typescript.preferences.quoteStyle": "single",
     "typescript.preferences.importModuleSpecifier": "auto",
-    "editor.snippetSuggestions": "bottom",
     "editor.rulers": [
         90
     ],
