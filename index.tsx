@@ -26,6 +26,7 @@ class App extends React.Component<{}, AppState> {
             comment: '',
             tanks: {
                 kind: 'tanks',
+                toSaveMode: false,
                 air12L: init,
                 air15L: init,
                 nitrox12L: init,
@@ -43,6 +44,7 @@ class App extends React.Component<{}, AppState> {
             activeTabKind: 'tanks',
             tanks: {
                 kind: 'tanks',
+                toSaveMode: false,
                 air12L: init,
                 air15L: init,
                 nitrox12L: init,

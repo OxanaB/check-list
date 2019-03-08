@@ -57,7 +57,7 @@ export class NewReport extends React.Component<NewReportProps> {
             <form>
 
                 <label>
-                    Name <input onChange={this.whenChanged} value={boatName} placeholder="Angelina" />
+                    Name <input onChange={this.whenChanged} value={boatName} placeholder="Enter boat name" />
                 </label>
                 <label>
                     Type <SelectField defaultOption={defaultOption} options={boatOptions} when={concern => {

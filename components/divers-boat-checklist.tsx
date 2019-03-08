@@ -27,8 +27,8 @@ export interface DiversBoatChecklistProps {
 export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProps> {
     private whenCommentedDiversChecklist: React.ChangeEventHandler<HTMLTextAreaElement> = e => {
         const { when } = this.props;
-        const message = e.currentTarget.value;
-        when({ about: 'divers-checklist-commented', comment: message });
+        const comment = e.currentTarget.value;
+        when({ about: 'divers-checklist-commented', comment });
     }
     render() {
         const { seed: { tanks, weights } } = this.props;
