@@ -45,10 +45,12 @@ export interface BeltsConcern {
 }
 export interface EquipmentToSaveConcern {
     about: 'equipment-to-save';
+    toSaveMode: boolean;
 }
 
 export interface EquipmentSeed {
     kind: 'equipment';
+    toSaveMode: boolean;
     masks: TextFieldSeed;
     snorkels: TextFieldSeed;
     bcds: TextFieldSeed;
@@ -84,36 +86,66 @@ export class Equipment extends React.Component<EquipmentProps> {
     private whenBelts = (concern: TextFieldConcern) => {
         this.props.when({ about: 'belts', belts: concern });
     }
+    private whenToChangeMode(toSaveMode: boolean) {
+        this.props.when({ about: 'equipment-to-save', toSaveMode });
+    }
     render() {
-        const { seed: { masks, snorkels, bcds, regulators, shorties, fins, belts } } = this.props;
+        const { seed: { masks, snorkels, bcds, regulators, shorties, fins, belts, toSaveMode } } = this.props;
         return <>
-                <label>Masks
-                    <TextField seed={masks} when={this.whenMasks}/>
-                </label>
-                <label>Snorkels
-                    <TextField seed={snorkels} when={this.whenSnorkels}/>
-                </label>
-                <label>BCD
-                    <TextField seed={bcds} when={this.whenBcds}/>
-                </label>
-                <label>Regulators
-                    <TextField seed={regulators} when={this.whenRegulators}/>
-                </label>
-                <label>Shorty
-                    <TextField seed={shorties} when={this.whenShorties}/>
-                </label>
-                <label>Fins
-                    <TextField seed={fins} when={this.whenFins}/>
-                </label>
-                <label>Belts
+            {
+                !toSaveMode ?
+                    <>
+                        <label>Masks
+                    <TextField seed={masks} when={this.whenMasks} />
+                        </label>
+                        <label>Snorkels
+                    <TextField seed={snorkels} when={this.whenSnorkels} />
+                        </label>
+                        <label>BCD
+                    <TextField seed={bcds} when={this.whenBcds} />
+                        </label>
+                        <label>Regulators
+                    <TextField seed={regulators} when={this.whenRegulators} />
+                        </label>
+                        <label>Shorty
+                    <TextField seed={shorties} when={this.whenShorties} />
+                        </label>
+                        <label>Fins
+                    <TextField seed={fins} when={this.whenFins} />
+                        </label>
+                        <label>Belts
                     <TextField seed={belts} when={this.whenBelts} />
-                </label>
-                <button onSubmit={() => {
-                    this.props.when({
-                        about: 'equipment-to-save',
-                    });
-                }}>SAVE</button>
-            </>;
+                        </label>
+                        <button onClick={e => {
+                            e.preventDefault();
+                            this.whenToChangeMode(true);
+                        }}>SAVE</button>
+                    </>
+                    : <><table>
+                        <tbody>
+                            <tr><td>Masks: </td>
+                                <td>{masks.value ? masks.value : 0}</td></tr>
+                            <tr><td>Snorkels: </td>
+                                <td>{snorkels.value ? snorkels.value : 0}</td></tr>
+                            <tr><td>BCD's: </td>
+                                <td>{bcds.value ? bcds.value : 0}</td></tr>
+                            <tr><td>Regulators: </td>
+                                <td>{regulators.value ? regulators.value : 0}</td></tr>
+                            <tr><td>Shorties: </td>
+                                <td>{shorties.value ? shorties.value : 0}</td></tr>
+                            <tr><td>Fins: </td>
+                                <td>{fins.value ? fins.value : 0}</td></tr>
+                            <tr><td>Belts: </td>
+                                <td>{belts.value ? belts.value : 0}</td></tr>
+                        </tbody>
+                    </table>
+                        <button onClick={e => {
+                            e.preventDefault();
+                            this.whenToChangeMode(false);
+                        }}>EDIT</button>
+                    </>
+            }
+        </>;
     }
 }
 
@@ -126,32 +158,35 @@ export function faceEquipmentConcern(
     switch (concern.about) {
         case 'masks': return inEquipmentSeed.masks[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.masks),
-            );
+        );
         case 'snorkels': return inEquipmentSeed.snorkels[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.snorkels),
-            );
+        );
         case 'bcds': return inEquipmentSeed.bcds[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.bcds),
-            );
+        );
         case 'regulators': return inEquipmentSeed.regulators[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.regulators),
-            );
+        );
         case 'shorties': return inEquipmentSeed.shorties[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.shorties),
-            );
+        );
         case 'fins': return inEquipmentSeed.fins[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.fins),
-            );
+        );
         case 'belts': return inEquipmentSeed.belts[$across](oldEqiupment,
             oldField => faceTextFieldConcern(oldField, concern.belts),
-            );
-        case 'equipment-to-save': return oldEqiupment;
+        );
+        case 'equipment-to-save': return {
+            ...oldEqiupment, toSaveMode: concern.toSaveMode,
+        };
         default: return broke(concern);
     }
 }
 
 export const defaultEquipment: EquipmentSeed = {
     kind: 'equipment',
+    toSaveMode: false,
     masks: {
         value: 0,
         text: '',

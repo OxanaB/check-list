@@ -37,6 +37,7 @@ class App extends React.Component<{}, AppState> {
                 kiloPieces2: init,
                 kiloPieces3: init,
                 kind: 'weights',
+                toSaveMode: false,
                 totalWeights: 0,
             },
         },
@@ -55,6 +56,7 @@ class App extends React.Component<{}, AppState> {
                 kiloPieces2: init,
                 kiloPieces3: init,
                 kind: 'weights',
+                toSaveMode: false,
                 totalWeights: 0,
             },
             equipment: {
@@ -62,6 +64,7 @@ class App extends React.Component<{}, AppState> {
                 belts: init,
                 fins: init,
                 kind: 'equipment',
+                toSaveMode: false,
                 masks: init,
                 regulators: init,
                 shorties: init,

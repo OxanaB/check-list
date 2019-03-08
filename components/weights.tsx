@@ -11,6 +11,7 @@ export type WeightsConcern =
 
 export interface WeightsToSaveConcern {
     about: 'weights-to-save';
+    toSaveMode: boolean;
 }
 export interface OneKiloConcern {
     about: '1-kilo-pieses';
@@ -26,6 +27,7 @@ export interface ThreeKiloConcern {
 }
 export interface WeightsSeed {
     kind: 'weights';
+    toSaveMode: boolean;
     kiloPieces1: TextFieldSeed;
     kiloPieces2: TextFieldSeed;
     kiloPieces3: TextFieldSeed;
@@ -46,25 +48,56 @@ export class Weights extends React.Component<WeightsProps> {
     private whenThreeKiloPieces = (concern: TextFieldConcern) => {
         this.props.when({ about: '3-kilo-pieses', kiloPieces3: concern });
     }
+    private whenToChangeMode(toSaveMode: boolean) {
+        this.props.when({ about: 'weights-to-save', toSaveMode });
+    }
     render() {
-        const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights } } = this.props;
+        const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights, toSaveMode } } = this.props;
         return <>
-                <label>1 kilo pieces
+            {
+                !toSaveMode
+                    ? <>
+                        <label>1 kilo pieces
                     <TextField seed={kiloPieces1} when={this.whenOneKiloPieces} />
-                </label>
-                <label>2 kilo pieces
+                        </label>
+                        <label>2 kilo pieces
                     <TextField seed={kiloPieces2} when={this.whenTwoKiloPieces} />
-                </label>
-                <label>3 kilo pieces
+                        </label>
+                        <label>3 kilo pieces
                     <TextField seed={kiloPieces3} when={this.whenThreeKiloPieces} />
-                </label>
-                <div>Total weigths: {totalWeights}</div>
-                <button onSubmit={() => {
-                    this.props.when({
-                        about: 'weights-to-save',
-                    });
-                }}>SAVE</button>
-            </>;
+                        </label>
+                        <div>Total weigths: {totalWeights}</div>
+                        <button onClick={e => {
+                            e.preventDefault();
+                            this.whenToChangeMode(true);
+                        }}>SAVE</button>
+                    </>
+                    : <>
+                        <table>
+                            <tbody>
+                                <tr><td>Total weigths: </td>
+                                    <td>{totalWeights}</td></tr>
+                                <tr><td>1 kilo pieces: </td>
+                                    <td>{kiloPieces1.value ?
+                                        kiloPieces1.value : 0
+                                    }</td></tr>
+                                <tr><td>2 kilo pieces: </td>
+                                    <td>{kiloPieces2.value ?
+                                        kiloPieces2.value : 0
+                                    }</td></tr>
+                                <tr><td>3 kilo pieces: </td>
+                                    <td>{kiloPieces3.value ?
+                                        kiloPieces3.value : 0
+                                    }</td></tr>
+                            </tbody>
+                        </table>
+                        <button onClick={e => {
+                            e.preventDefault();
+                            this.whenToChangeMode(true);
+                        }}>EDIT</button>
+                    </>
+            }
+        </>;
     }
 }
 
@@ -112,13 +145,16 @@ export function takeUserInput(
         case '3-kilo-pieses': return inWeightsSeed.kiloPieces3[$across](
             oldWeights, oldField => faceTextFieldConcern(oldField, concern.kiloPieces3),
         );
-        case 'weights-to-save': return oldWeights;
+        case 'weights-to-save': return {
+            ...oldWeights, toSaveMode: concern.toSaveMode,
+        };
         default: return broke(concern);
     }
 }
 
 export const defaultWeights: WeightsSeed = {
     kind: 'weights',
+    toSaveMode: false,
     kiloPieces1: {
         value: 0,
         text: '',

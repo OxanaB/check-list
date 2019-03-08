@@ -82,20 +82,18 @@ export class Tanks extends React.Component<TanksProps> {
                             this.whenToChangeMode(true);
                         }}>SAVE</button>
                     </>
-                    : <>
-                        {
-                            air12L.value || air15L.value || nitrox12L.value || nitrox15L.value ?
-                                <>
-                                    <div>air 12L is {air12L.value}</div>
-                                    <div>air 15L is {air15L.value}</div>
-                                    <div>nitrox 12L is {nitrox12L.value}</div>
-                                    <div>nitrox 12L is {nitrox15L.value}</div>
-                                </>
-                                : <div className="input-error">
-                                    <p>Enter amount of tanks (filled).</p>
-                                    <p>If there is no kind of tanks enter 0 (zero).</p>
-                                </div>
-                        }
+                    : <> <table>
+                        <tbody>
+                            <tr><td>air 12L: </td>
+                                <td>{air12L.value ? air12L.value : 0}</td></tr>
+                            <tr><td>air 15L: </td>
+                                <td>{air15L.value ? air15L.value : 0}</td></tr>
+                            <tr><td>nitrox 12L: </td>
+                                <td>{nitrox12L.value ? nitrox12L.value : 0}</td></tr>
+                            <tr><td>nitrox 12L: </td>
+                                <td>{nitrox15L.value ? nitrox12L.value : 0}</td></tr>
+                        </tbody>
+                    </table>
                         <button onClick={e => {
                             e.preventDefault();
                             this.whenToChangeMode(false);
