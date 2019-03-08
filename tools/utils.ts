@@ -52,6 +52,11 @@ export function sum(numbers: number[]): number {
     return sum;
 }
 
+export function matchOptions(options: string[], text: string): string[] {
+    const filtered = options.filter(option => option.toLocaleLowerCase().includes(text.toLocaleLowerCase()));
+    return filtered;
+}
+
 export function crash(message: string): never  {
     throw new Error(message);
 }

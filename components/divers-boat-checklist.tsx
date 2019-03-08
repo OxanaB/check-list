@@ -55,6 +55,7 @@ export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProp
                     <textarea onChange={this.whenCommentedDiversChecklist} />
                 </div>
             </div>
+            <button>Save and send</button>
         </div>;
     }
 }

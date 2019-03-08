@@ -4,21 +4,17 @@ import { broke } from '../tools/utils';
 import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistProps, DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed } from './intro-boat-checklist';
 import { SelectField, SelectFieldConcern } from './select-field';
+import { faceTypeAheadInputConcern, TypeAheadInput, TypeAheadInputConcern, TypeAheadInputProps, TypeAheadInputSeed } from './type-ahead-input';
 
 export type NewReportConcern =
+    | { about: 'boat-name', boatName: TypeAheadInputConcern }
     | { about: 'divers-boat', diversBoat: DiversBoatChecklistConcern }
     | { about: 'intro-boat', introBoat: IntroBoatChecklistConcern }
-    | NewReportInputConcern
     | SelectFieldConcern;
-
-export interface NewReportInputConcern {
-    about: 'changed-boat-name';
-    boatName: string;
-}
 
 export interface NewReportSeed {
     activeOption: string;
-    boatName: string;
+    boatName: TypeAheadInputSeed;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
 }
@@ -28,17 +24,18 @@ export interface NewReportProps {
     when: (concern: NewReportConcern) => void;
 }
 
-const boatOptions = ['', 'divers boat', 'intro boat'];
+const boatTypeOptions = ['', 'divers boat', 'intro boat'];
 const defaultOption = '';
 
 export class NewReport extends React.Component<NewReportProps> {
-    private whenChanged: React.ChangeEventHandler<HTMLInputElement> = e => {
-        const { when } = this.props;
-        const text = e.currentTarget.value;
-        when({ about: 'changed-boat-name', boatName: text });
-    }
     render() {
         const { seed: { activeOption, diversBoat, introBoat, boatName } } = this.props;
+        const boatNameProps: TypeAheadInputProps = {
+            seed: boatName,
+            when: concern => {
+                this.props.when({ about: 'boat-name', boatName: concern });
+            },
+        };
         const diversBoatProps: DiversBoatChecklistProps = {
             seed: diversBoat,
             when: concern => {
@@ -57,10 +54,10 @@ export class NewReport extends React.Component<NewReportProps> {
             <form>
 
                 <label>
-                    Name <input onChange={this.whenChanged} value={boatName} placeholder="Enter boat name" />
+                    Name <TypeAheadInput {...boatNameProps} />
                 </label>
                 <label>
-                    Type <SelectField defaultOption={defaultOption} options={boatOptions} when={concern => {
+                    Type <SelectField defaultOption={defaultOption} options={boatTypeOptions} when={concern => {
                         this.props.when(concern);
                     }} />
                 </label>
@@ -78,11 +75,14 @@ export class NewReport extends React.Component<NewReportProps> {
 
 const inNewReportSeed = toStewardOf<NewReportSeed>();
 
-export function faceBoatSelectConcern(
+export function faceNewReportConcern(
     oldSeed: NewReportSeed,
     concern: NewReportConcern,
 ): NewReportSeed {
     switch (concern.about) {
+        case 'boat-name': return inNewReportSeed.boatName[$across](
+            oldSeed, oldName => faceTypeAheadInputConcern(oldName, concern.boatName),
+        );
         case 'divers-boat': return inNewReportSeed.diversBoat[$across](
             oldSeed,
             oldData => faceDiversBoatChecklistConcern(oldData, concern.diversBoat),
@@ -94,11 +94,6 @@ export function faceBoatSelectConcern(
         case 'selected-option': {
             return {
                 ...oldSeed, activeOption: concern.activeOption,
-            };
-        }
-        case 'changed-boat-name': {
-            return {
-                ...oldSeed, boatName: concern.boatName,
             };
         }
         default: return broke(concern);

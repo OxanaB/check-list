@@ -3,12 +3,13 @@ import * as ReactDOM from 'react-dom';
 import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
 import { NewReport, NewReportConcern, NewReportProps } from './components/new-report';
+import { faceTypeAheadInputConcern, TypeAheadInputSeed } from './components/type-ahead-input';
 import { $across, $atop, toStewardOf } from './tools/stewarding';
 import { broke, to } from './tools/utils';
 
 interface AppState {
     activeOption: string;
-    boatName: string;
+    boatName: TypeAheadInputSeed;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
 }
@@ -16,12 +17,19 @@ interface AppState {
 type AppConcern = NewReportConcern;
 
 const init = { value: null, text: '', error: '' };
+const boatNameOptions = ['Angelina', 'Kashtan Sea', 'Freedom 1', 'Freedom 3', 'Lady Nataly',
+    'Eleeonora', 'Maria Sole', 'Empro 1', 'Omar 4'];
 
 class App extends React.Component<{}, AppState> {
 
     state = to<AppState>({
         activeOption: '',
-        boatName: '',
+        boatName: {
+            isOptionToShow: false,
+            placeholder: 'Enter boat name',
+            text: '',
+            typeAheadOptions: boatNameOptions,
+        },
         diversBoat: {
             comment: '',
             tanks: {
@@ -99,12 +107,9 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
                 ...oldState, activeOption: choosenBoat,
             });
         }
-        case 'changed-boat-name': {
-            const boatName = concern.boatName;
-            return inAppState[$atop](oldState, {
-                ...oldState, boatName,
-            });
-        }
+        case 'boat-name':
+            return inAppState.boatName[$across](oldState,
+                oldName => faceTypeAheadInputConcern(oldName, concern.boatName));
         case 'divers-boat':
             return inAppState.diversBoat[$across](oldState,
                 oldData => faceDiversBoatChecklistConcern(oldData, concern.diversBoat));
@@ -116,3 +121,9 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+
+{/* <Router>
+            const newReport = () => { return <NewReport {...props} />;};
+            <Route path="/reports/new" component={newReport} />
+        </Router>; */}
