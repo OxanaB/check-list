@@ -7,6 +7,7 @@ export interface SelectFieldConcern {
 
 export interface SelectFieldProps {
     options: string[];
+    defaultOption: string;
     when: (concern: SelectFieldConcern) => void;
 }
 
@@ -17,9 +18,9 @@ export class SelectField extends React.Component<SelectFieldProps> {
         when({ about: 'selected-option', activeOption: choosenOption });
     }
     render() {
-        const { options } = this.props;
+        const { options, defaultOption } = this.props;
         return <>
-            <select onChange={this.whenSelected}>
+            <select defaultValue={defaultOption} onChange={this.whenSelected}>
                 {
                     options.map(option => {
                         return <option key={option} value={option}>{option}</option>;

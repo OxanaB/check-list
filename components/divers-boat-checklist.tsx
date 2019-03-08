@@ -1,6 +1,6 @@
-import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { $across, toStewardOf } from '../tools/stewarding';
+import { broke } from '../tools/utils';
 import { faceTanksConcern, Tanks, TanksConcern, TanksProps, TanksSeed } from './tanks';
 import { faceWeightsConcern, Weights, WeightsConcern, WeightsProps, WeightsSeed } from './weights';
 
@@ -49,9 +49,11 @@ export class DiversBoatChecklist extends React.Component<DiversBoatChecklistProp
             <Tanks {...tanksProps} />
             <h2>Weights</h2>
             <Weights {...weightsProps} />
-            Comments about broken equipment
             <div>
-                <textarea onChange={this.whenCommentedDiversChecklist} />
+                Comments about equipment
+                <div>
+                    <textarea onChange={this.whenCommentedDiversChecklist} />
+                </div>
             </div>
         </div>;
     }

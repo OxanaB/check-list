@@ -1,36 +1,40 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BoatSelect, BoatSelectConcern, BoatSelectProps } from './components/boat-select';
 import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
+import { NewReport, NewReportConcern, NewReportProps } from './components/new-report';
 import { $across, $atop, toStewardOf } from './tools/stewarding';
 import { broke, to } from './tools/utils';
 
 interface AppState {
     activeOption: string;
+    boatName: string;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
 }
 
-type AppConcern = BoatSelectConcern;
-const xxx = { value: null, text: '0', error: '' };
+type AppConcern = NewReportConcern;
+
+const init = { value: null, text: '', error: '' };
+
 class App extends React.Component<{}, AppState> {
 
     state = to<AppState>({
-        activeOption: 'divers boat',
+        activeOption: '',
+        boatName: '',
         diversBoat: {
             comment: '',
             tanks: {
                 kind: 'tanks',
-                air12L: xxx,
-                air15L: { value: null, text: '0', error: '' },
-                nitrox12L: { value: null, text: '0', error: '' },
-                nitrox15L: { value: null, text: '0', error: '' },
+                air12L: init,
+                air15L: init,
+                nitrox12L: init,
+                nitrox15L: init,
             },
             weights: {
-                kiloPieces1: { value: null, text: '0', error: '' },
-                kiloPieces2: { value: null, text: '0', error: '' },
-                kiloPieces3: { value: null, text: '0', error: '' },
+                kiloPieces1: init,
+                kiloPieces2: init,
+                kiloPieces3: init,
                 kind: 'weights',
                 totalWeights: 0,
             },
@@ -39,36 +43,36 @@ class App extends React.Component<{}, AppState> {
             activeTabKind: 'tanks',
             tanks: {
                 kind: 'tanks',
-                air12L: { value: null, text: '0', error: '' },
-                air15L: { value: null, text: '0', error: '' },
-                nitrox12L: { value: null, text: '0', error: '' },
-                nitrox15L: { value: null, text: '0', error: '' },
+                air12L: init,
+                air15L: init,
+                nitrox12L: init,
+                nitrox15L: init,
             },
             weights: {
-                kiloPieces1: { value: null, text: '0', error: '' },
-                kiloPieces2: { value: null, text: '0', error: '' },
-                kiloPieces3: { value: null, text: '0', error: '' },
+                kiloPieces1: init,
+                kiloPieces2: init,
+                kiloPieces3: init,
                 kind: 'weights',
                 totalWeights: 0,
             },
             equipment: {
-                bcds: { value: null, text: '0', error: '' },
-                belts: { value: null, text: '0', error: '' },
-                fins: { value: null, text: '0', error: '' },
+                bcds: init,
+                belts: init,
+                fins: init,
                 kind: 'equipment',
-                masks: { value: null, text: '0', error: '' },
-                regulators: { value: null, text: '0', error: '' },
-                shorties: { value: null, text: '0', error: '' },
-                snorkels: { value: null, text: '0', error: '' },
+                masks: init,
+                regulators: init,
+                shorties: init,
+                snorkels: init,
             },
         },
     });
 
     render() {
-        const { state: { activeOption, diversBoat, introBoat } } = this;
-        const props: BoatSelectProps = {
+        const { state: { activeOption, boatName, diversBoat, introBoat } } = this;
+        const props: NewReportProps = {
             seed: {
-                activeOption, diversBoat, introBoat,
+                activeOption, boatName, diversBoat, introBoat,
             },
             when: concern => {
                 const oldState = this.state;
@@ -77,7 +81,7 @@ class App extends React.Component<{}, AppState> {
                 this.setState(newState);
             },
         };
-        return <BoatSelect {...props} />;
+        return <NewReport {...props} />;
     }
 }
 const inAppState = toStewardOf<AppState>();
@@ -88,6 +92,12 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
             const choosenBoat = concern.activeOption;
             return inAppState[$atop](oldState, {
                 ...oldState, activeOption: choosenBoat,
+            });
+        }
+        case 'changed-boat-name': {
+            const boatName = concern.boatName;
+            return inAppState[$atop](oldState, {
+                ...oldState, boatName,
             });
         }
         case 'divers-boat':

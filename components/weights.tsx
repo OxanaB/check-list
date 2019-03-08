@@ -1,6 +1,6 @@
-import { $across, $on, toStewardOf } from 'divemaster-checklist/tools/stewarding';
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { $across, $on, toStewardOf } from '../tools/stewarding';
+import { broke } from '../tools/utils';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 
 export type WeightsConcern =
@@ -48,7 +48,7 @@ export class Weights extends React.Component<WeightsProps> {
     }
     render() {
         const { seed: { kiloPieces1, kiloPieces2, kiloPieces3, totalWeights } } = this.props;
-        return <form>
+        return <>
                 <label>1 kilo pieces
                     <TextField seed={kiloPieces1} when={this.whenOneKiloPieces} />
                 </label>
@@ -64,7 +64,7 @@ export class Weights extends React.Component<WeightsProps> {
                         about: 'weights-to-save',
                     });
                 }}>SAVE</button>
-            </form>;
+            </>;
     }
 }
 

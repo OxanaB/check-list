@@ -15,7 +15,7 @@ h1,
 h2,
 h3 {
   font-family: Georgia, 'Times New Roman', Times, serif;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 a {
   display: block;
@@ -26,18 +26,24 @@ form {
   max-width: 420px;
 }
 form label {
-  margin-top: 15px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-form input {
+form input,
+form select {
   flex: 1;
   height: 30px;
   margin-left: 10px;
 }
-form input::placeholder {
+form input::placeholder,
+form select::placeholder {
   font-style: italic;
+}
+form textarea {
+  height: 60px;
+  width: 278px;
 }
 form .input-error {
   margin-left: 5px;
@@ -54,23 +60,23 @@ form button {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.new-report {
+  padding: 10px;
+}
 .divers-boat {
   border-radius: 5px;
-  border: 1px solid #808080;
+  border: 1px solid #d3d3d3;
   padding: 10px;
-  margin: 10px;
-}
-.divers-boat text-area {
-  height: 60px;
-  max-width: 358px;
-  width: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .tabs-container {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   max-width: 440px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .tabs-container .tabs-top {
   display: flex;
@@ -81,10 +87,10 @@ form button {
   flex: 1;
   padding: 10px;
   font-size: 20px;
-  border: 1px solid #808080;
+  border: 1px solid #d3d3d3;
   border-top-right-radius: 15px;
   border-top-left-radius: 10px;
-  background-color: #d3d3d3;
+  background-color: #e2e0e0;
 }
 .tabs-container .tabs-top .choosen {
   flex: 1;
@@ -93,7 +99,7 @@ form button {
 }
 .tabs-container .tabs-content {
   padding: 10px;
-  border-left: 1px solid #808080;
-  border-right: 1px solid #808080;
-  border-bottom: 1px solid #808080;
+  border-left: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
 }

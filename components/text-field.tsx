@@ -1,5 +1,5 @@
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { broke } from '../tools/utils';
 import { TextFieldConcern, TextFieldSeed } from './text-field';
 
 

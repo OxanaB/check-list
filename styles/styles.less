@@ -14,7 +14,7 @@ body {
 
 h1, h2, h3 {
     font-family: Georgia, 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 a {
     display: block;
@@ -25,13 +25,13 @@ form {
     max-width: 420px;
 
     label {
-        margin-top: 15px;
+        margin-bottom: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    input {
+    input, select {
         flex: 1;
         height: 30px;
         margin-left: 10px;
@@ -39,6 +39,11 @@ form {
         &::placeholder {
            font-style: italic;
         }
+    }
+
+    textarea {
+        height: 60px;
+        width: 278px;
     }
     .input-error {
         margin-left: 5px;
@@ -56,16 +61,15 @@ form {
         margin-bottom: 10px;
     }
 }
+.new-report {
+    padding: 10px;
+}
 .divers-boat {
     border-radius: 5px;
     border: 1px solid @border-color;
     padding: 10px;
-    margin: 10px;
-    text-area {
-        height: 60px;
-        max-width: 358px;
-        width: fit-content;
-    }
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 @import './tabs.less';

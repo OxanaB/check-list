@@ -1,9 +1,7 @@
-import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { $across, toStewardOf } from '../tools/stewarding';
+import { broke } from '../tools/utils';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
-
-
 
 export type TanksConcern =
     | TanksToSaveConcern
@@ -37,7 +35,6 @@ export interface TanksSeed {
     air15L: TextFieldSeed;
     nitrox12L: TextFieldSeed;
     nitrox15L: TextFieldSeed;
-
 }
 export interface TanksProps {
     seed: TanksSeed;
@@ -60,25 +57,26 @@ export class Tanks extends React.Component<TanksProps> {
 
     render() {
         const { seed: { air12L, air15L, nitrox12L, nitrox15L } } = this.props;
-        return <form >
-                <label> air 12L
+        return <>
+            <label> air 12L
                     <TextField seed={air12L} when={this.whenAir12L} />
-                </label>
-                <label> air 15L
+            </label>
+            <label> air 15L
                     <TextField seed={air15L} when={this.whenAir15L} />
-                </label>
-                <label> nitrox 12L
+            </label>
+            <label> nitrox 12L
                     <TextField seed={nitrox12L} when={this.whenNitrox12L} />
-                </label>
-                <label> nitrox 15L
+            </label>
+            <label> nitrox 15L
                     <TextField seed={nitrox15L} when={this.whenNitrox15L} />
-                </label>
-                <button onSubmit={() => {
-                    this.props.when({
-                        about: 'tanks-to-save',
-                    });
-                }}>SAVE</button>
-            </form>;
+            </label>
+            <button onSubmit={e => {
+                e.preventDefault();
+                this.props.when({
+                    about: 'tanks-to-save',
+                });
+            }}>Save</button>
+        </>;
     }
 }
 

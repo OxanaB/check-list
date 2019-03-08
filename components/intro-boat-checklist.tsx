@@ -1,6 +1,6 @@
-import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { $across, toStewardOf } from '../tools/stewarding';
+import { broke } from '../tools/utils';
 import { Equipment, EquipmentConcern, EquipmentSeed, faceEquipmentConcern } from './equipment';
 import { ChoosenTabConcern, Tabs, TabsProps } from './tabTop';
 import { faceTanksConcern, Tanks, TanksConcern, TanksSeed } from './tanks';

@@ -1,6 +1,6 @@
-import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
-import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
+import { $across, toStewardOf } from '../tools/stewarding';
+import { broke } from '../tools/utils';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
 
 
@@ -86,7 +86,7 @@ export class Equipment extends React.Component<EquipmentProps> {
     }
     render() {
         const { seed: { masks, snorkels, bcds, regulators, shorties, fins, belts } } = this.props;
-        return <form>
+        return <>
                 <label>Masks
                     <TextField seed={masks} when={this.whenMasks}/>
                 </label>
@@ -113,7 +113,7 @@ export class Equipment extends React.Component<EquipmentProps> {
                         about: 'equipment-to-save',
                     });
                 }}>SAVE</button>
-            </form>;
+            </>;
     }
 }
 
