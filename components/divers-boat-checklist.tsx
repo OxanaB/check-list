@@ -1,8 +1,9 @@
+import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
+import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
-import { $across, toStewardOf } from './stewarding';
 import { faceTanksConcern, Tanks, TanksConcern, TanksProps, TanksSeed } from './tanks';
-import { broke } from './utils';
 import { faceWeightsConcern, Weights, WeightsConcern, WeightsProps, WeightsSeed } from './weights';
+
 
 export interface DiversBoatChecklistSeed {
     tanks: TanksSeed;

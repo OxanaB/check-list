@@ -1,9 +1,10 @@
+import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
+import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
 import { DiversBoatChecklist, DiversBoatChecklistConcern, DiversBoatChecklistProps, DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklist, IntroBoatChecklistConcern, IntroBoatChecklistProps, IntroBoatChecklistSeed } from './intro-boat-checklist';
 import { SelectField, SelectFieldConcern } from './select-field';
-import { $across, toStewardOf } from './stewarding';
-import { broke } from './utils';
+
 
 export type BoatSelectConcern =
     | { about: 'divers-boat', diversBoat: DiversBoatChecklistConcern }

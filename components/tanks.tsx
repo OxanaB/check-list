@@ -1,7 +1,9 @@
+import { $across, toStewardOf } from 'divemaster-checklist/tools/stewarding';
+import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
-import { $across, toStewardOf } from './stewarding';
 import { faceTextFieldConcern, TextField, TextFieldConcern, TextFieldSeed } from './text-field';
-import { broke } from './utils';
+
+
 
 export type TanksConcern =
     | TanksToSaveConcern

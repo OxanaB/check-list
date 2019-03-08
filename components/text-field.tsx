@@ -1,6 +1,7 @@
+import { broke } from 'divemaster-checklist/tools/utils';
 import * as React from 'react';
 import { TextFieldConcern, TextFieldSeed } from './text-field';
-import { broke } from './utils';
+
 
 export interface TextFieldProps {
     seed: TextFieldSeed; // ---> IN

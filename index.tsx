@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BoatSelect, BoatSelectConcern, BoatSelectProps } from './boat-select';
-import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './divers-boat-checklist';
-import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './intro-boat-checklist';
-import { $across, $atop, toStewardOf } from './stewarding';
-import { broke, to } from './utils';
+import { BoatSelect, BoatSelectConcern, BoatSelectProps } from './components/boat-select';
+import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
+import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
+import { $across, $atop, toStewardOf } from './tools/stewarding';
+import { broke, to } from './tools/utils';
 
 interface AppState {
     activeOption: string;
