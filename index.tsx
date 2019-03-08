@@ -17,8 +17,7 @@ interface AppState {
 type AppConcern = NewReportConcern;
 
 const init = { value: null, text: '', error: '' };
-const boatNameOptions = ['Angelina', 'Kashtan Sea', 'Freedom 1', 'Freedom 3', 'Lady Nataly',
-    'Eleeonora', 'Maria Sole', 'Empro 1', 'Omar 4'];
+const boatNameOptions = ['Lady Nataly', 'Eleonora', 'Maria Sole'];
 
 class App extends React.Component<{}, AppState> {
 
@@ -29,6 +28,7 @@ class App extends React.Component<{}, AppState> {
             placeholder: 'Enter boat name',
             text: '',
             typeAheadOptions: boatNameOptions,
+            matchingOptions: [],
         },
         diversBoat: {
             comment: '',

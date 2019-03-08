@@ -52,10 +52,17 @@ export function sum(numbers: number[]): number {
     return sum;
 }
 
+// for typeahead
 export function matchOptions(options: string[], text: string): string[] {
     const filtered = options.filter(option => option.toLocaleLowerCase().includes(text.toLocaleLowerCase()));
     return filtered;
 }
+
+export function minus(left: string[], right: string[]): string[] {
+    return left.filter(left => !right.includes(left));
+}
+
+// for reducers
 
 export function crash(message: string): never  {
     throw new Error(message);
@@ -66,4 +73,5 @@ export function broke(never: never): never {
     throw new Error('Unexpected case.');
 }
 
+// for proper state
 export function to<T>(value: T): T { return value; }

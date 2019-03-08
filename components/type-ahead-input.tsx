@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { broke, matchOptions } from '../tools/utils';
+import { broke, matchOptions, minus } from '../tools/utils';
 
 
 export interface TypeAheadInputProps {
@@ -21,19 +21,18 @@ export class TypeAheadInput extends React.Component<TypeAheadInputProps> {
         const { seed: { text, typeAheadOptions, isOptionToShow, placeholder } } = this.props;
         return <>
             <input onChange={this.whenChanged} value={text} placeholder={placeholder} />
-            {
-                typeAheadOptions !== null && isOptionToShow
-                    ? <div className="type-ahead-options">
-                        {
-                            typeAheadOptions.map(machedOption => {
-                                return <div key={machedOption}>
-                                    <a href="#" onClick={e => {
-                                        e.preventDefault();
-                                        this.whenTypeAheadOptionPicked(machedOption);
-                                    }}>{machedOption}</a></div>;
+            {typeAheadOptions !== null && isOptionToShow ?
+                <div className="type-ahead-options">
+                    {
+                        typeAheadOptions.map(machedOption => {
+                            return <div key={machedOption}>
+                                <a href="#" onClick={e => {
+                                    e.preventDefault();
+                                    this.whenTypeAheadOptionPicked(machedOption);
+                                }}>{machedOption}</a></div>;
 
-                            })}</div>
-                    : null
+                        })}</div>
+                : null
             }
         </>;
     }
@@ -43,6 +42,7 @@ export interface TypeAheadInputSeed {
     text: string;
     placeholder: string;
     typeAheadOptions: string[];
+    matchingOptions: string[];
     isOptionToShow: boolean;
 }
 
@@ -56,15 +56,26 @@ export function faceTypeAheadInputConcern(
 ): TypeAheadInputSeed {
     switch (concern.about) {
         case 'type-ahead-input-changed': {
-            const { typeAheadOptions } = oldProps;
-            const input = concern.text;
-            const matchedOptions = matchOptions(typeAheadOptions, input);
-            return {
-                text: concern.text,
-                isOptionToShow: true,
-                typeAheadOptions: matchedOptions,
-                ...oldProps,
-            };
+            const { typeAheadOptions, matchingOptions } = oldProps;
+            const { text } = concern;
+            if (matchingOptions.length === 0) {
+                const matchedOptions = matchOptions(typeAheadOptions, text);
+                return {
+                    ...oldProps,
+                    text,
+                    isOptionToShow: true,
+                    typeAheadOptions: matchedOptions,
+                };
+            } else {
+                const noPick = minus(typeAheadOptions, matchingOptions);
+                const matchedOptions = matchOptions(noPick, text);
+                return {
+                    ...oldProps,
+                    text,
+                    isOptionToShow: true,
+                    typeAheadOptions: matchedOptions,
+                };
+            }
         }
         case 'type-ahead-option-picked': {
             const text = concern.text;

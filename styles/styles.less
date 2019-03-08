@@ -48,7 +48,13 @@ form {
            font-style: italic;
         }
     }
-
+    .type-ahead-options {
+        font-style: italic;
+        font-size: 0.8em;
+        padding: 5px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
     textarea {
         height: 60px;
         width: 278px;
@@ -70,26 +76,5 @@ form {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.type-ahead-options {
-    font-style: italic;
-    font-size: 0.8em;
-    padding: 5px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-.type-ahead-tags {
-    font-style: italic;
-    font-size: 0.8em;
-    display: inline;
-    margin-left: 5px;
-    a {
-        font-size: 1.2em;
-        font-style: normal;
-        padding: 10px;
-        display: inline-block;
-        &:hover, &:active {
-            font-weight: bold;
-        }
-    }
-}
-        @import './tabs.less';
+
+@import './tabs.less';

@@ -27,7 +27,6 @@ button {
   border-radius: 5px;
   padding: 10px;
   font-size: 16px;
-  font-weight: bold;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -49,6 +48,13 @@ form select {
 form input::placeholder,
 form select::placeholder {
   font-style: italic;
+}
+form .type-ahead-options {
+  font-style: italic;
+  font-size: 0.8em;
+  padding: 5px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 form textarea {
   height: 60px;
