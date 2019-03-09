@@ -3,15 +3,14 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
-import { boatNamesSuggestions, NewReport, NewReportConcern, NewReportProps } from './components/new-report';
-import { faceTypeAheadInputConcern, TypeAheadInputSeed } from './components/type-ahead-input';
+import { BoatName, faceTypeAheadInputConcern, NewReport, NewReportConcern, NewReportProps } from './components/new-report';
 import { firebaseConfig } from './firebase-config';
 import { $across, $atop, toStewardOf } from './tools/stewarding';
 import { broke, to } from './tools/utils';
 
 interface AppState {
     activeOption: string;
-    boatName: TypeAheadInputSeed;
+    boatName: typeof BoatName.Seed;
     diversBoat: DiversBoatChecklistSeed;
     introBoat: IntroBoatChecklistSeed;
 }
@@ -30,7 +29,7 @@ class App extends React.Component<{}, AppState> {
             isOptionToShow: false,
             placeholder: 'Enter boat name',
             text: '',
-            matchingOptions: [],
+            matchedItems: [],
         },
         diversBoat: {
             comment: '',
@@ -121,7 +120,7 @@ function faceAppConcern(
         case 'boat-name':
             return inAppState.boatName[$across](oldState,
                 oldName => faceTypeAheadInputConcern(
-                    oldName, boatNamesSuggestions, concern.boatName,
+                    oldName, concern.boatName,
                 ));
         case 'divers-boat':
             return inAppState.diversBoat[$across](oldState,
