@@ -93,7 +93,7 @@ export class Weights extends React.Component<WeightsProps> {
                         </table>
                         <button onClick={e => {
                             e.preventDefault();
-                            this.whenToChangeMode(true);
+                            this.whenToChangeMode(false);
                         }}>EDIT</button>
                     </>
             }
