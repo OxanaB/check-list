@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { broke, matchOptions } from '../tools/utils';
 
-
 export interface TypeAheadInputProps {
     seed: TypeAheadInputSeed;
     when: (concern: TypeAheadInputConcern) => void;
@@ -18,13 +17,13 @@ export class TypeAheadInput extends React.Component<TypeAheadInputProps> {
         when({ about: 'type-ahead-option-picked', text: matchedOption });
     }
     render() {
-        const { seed: { text, typeAheadOptions, isOptionToShow, placeholder } } = this.props;
+        const { seed: { text, isOptionToShow, placeholder, matchingOptions } } = this.props;
         return <>
             <input className="type-ahead" onChange={this.whenChanged} value={text} placeholder={placeholder} />
-            {typeAheadOptions !== null && isOptionToShow ?
+            {matchingOptions && isOptionToShow ?
                 <div className="type-ahead-options">
                     {
-                        typeAheadOptions.map(machedOption => {
+                        matchingOptions.map(machedOption => {
                             return <div key={machedOption}>
                                 <a href="#" onClick={e => {
                                     e.preventDefault();
@@ -37,11 +36,9 @@ export class TypeAheadInput extends React.Component<TypeAheadInputProps> {
         </>;
     }
 }
-
 export interface TypeAheadInputSeed {
     text: string;
     placeholder: string;
-    typeAheadOptions: string[];
     matchingOptions: string[];
     isOptionToShow: boolean;
 }
@@ -52,18 +49,18 @@ export type TypeAheadInputConcern =
 
 export function faceTypeAheadInputConcern(
     oldProps: TypeAheadInputSeed,
+    typeAheadOptions: string[],
     concern: TypeAheadInputConcern,
 ): TypeAheadInputSeed {
     switch (concern.about) {
         case 'type-ahead-input-changed': {
-            const { typeAheadOptions } = oldProps;
             const { text } = concern;
             const matchedOptions = matchOptions(typeAheadOptions, text);
             return {
                 ...oldProps,
                 text,
                 isOptionToShow: true,
-                typeAheadOptions: matchedOptions,
+                matchingOptions: matchedOptions,
             };
         }
         case 'type-ahead-option-picked': {

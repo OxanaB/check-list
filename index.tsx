@@ -1,10 +1,9 @@
 import * as firebase from 'firebase';
 import * as React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
-import { NewReport, NewReportConcern, NewReportProps } from './components/new-report';
+import { boatNamesSuggestions, NewReport, NewReportConcern, NewReportProps } from './components/new-report';
 import { faceTypeAheadInputConcern, TypeAheadInputSeed } from './components/type-ahead-input';
 import { firebaseConfig } from './firebase-config';
 import { $across, $atop, toStewardOf } from './tools/stewarding';
@@ -20,7 +19,6 @@ interface AppState {
 type AppConcern = NewReportConcern;
 
 const init = { value: null, text: '', error: '' };
-const boatNameOptions = ['Lady Nataly', 'Eleonora', 'Maria Sole'];
 
 class App extends React.Component<{}, AppState> {
     componentWillMount() {
@@ -32,7 +30,6 @@ class App extends React.Component<{}, AppState> {
             isOptionToShow: false,
             placeholder: 'Enter boat name',
             text: '',
-            typeAheadOptions: boatNameOptions,
             matchingOptions: [],
         },
         diversBoat: {
@@ -87,7 +84,7 @@ class App extends React.Component<{}, AppState> {
     });
 
     render() {
-        const newReport = () => { return <NewReport {...props} />; };
+        // const newReport = () => { return <NewReport {...props} />; };
         const { state: { activeOption, boatName, diversBoat, introBoat } } = this;
         const props: NewReportProps = {
             seed: {
@@ -100,15 +97,20 @@ class App extends React.Component<{}, AppState> {
                 this.setState(newState);
             },
         };
-        return <Router>
-            <Route path="/" component={newReport} />
-        </Router>;
+        return <NewReport {...props} />;
+
+        // <Router>
+        //     <Route path="/" component={newReport} />
+        // </Router>;
 
     }
 }
 const inAppState = toStewardOf<AppState>();
 
-function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
+function faceAppConcern(
+    oldState: AppState,
+    concern: AppConcern,
+): AppState {
     switch (concern.about) {
         case 'selected-option': {
             const choosenBoat = concern.activeOption;
@@ -118,7 +120,9 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
         }
         case 'boat-name':
             return inAppState.boatName[$across](oldState,
-                oldName => faceTypeAheadInputConcern(oldName, concern.boatName));
+                oldName => faceTypeAheadInputConcern(
+                    oldName, boatNamesSuggestions, concern.boatName,
+                ));
         case 'divers-boat':
             return inAppState.diversBoat[$across](oldState,
                 oldData => faceDiversBoatChecklistConcern(oldData, concern.diversBoat));

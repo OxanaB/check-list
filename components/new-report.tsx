@@ -27,6 +27,8 @@ export interface NewReportProps {
 const boatTypeOptions = ['', 'divers boat', 'intro boat'];
 const defaultOption = '';
 
+export const boatNamesSuggestions = ['Lady Nataly', 'Eleonora', 'Maria Sole'];
+
 export class NewReport extends React.Component<NewReportProps> {
     render() {
         const { seed: { activeOption, diversBoat, introBoat, boatName } } = this.props;
@@ -81,7 +83,9 @@ export function faceNewReportConcern(
 ): NewReportSeed {
     switch (concern.about) {
         case 'boat-name': return inNewReportSeed.boatName[$across](
-            oldSeed, oldName => faceTypeAheadInputConcern(oldName, concern.boatName),
+            oldSeed, oldName => faceTypeAheadInputConcern(
+                oldName, boatNamesSuggestions, concern.boatName,
+            ),
         );
         case 'divers-boat': return inNewReportSeed.diversBoat[$across](
             oldSeed,
