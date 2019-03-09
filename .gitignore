@@ -2,5 +2,6 @@ node_modules
 dist
 scripts
 browser
+firebase.ts
 *.js
 *.js.map

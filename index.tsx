@@ -1,9 +1,12 @@
+import * as firebase from 'firebase';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { DiversBoatChecklistSeed, faceDiversBoatChecklistConcern } from './components/divers-boat-checklist';
 import { faceIntoBoatCheckListConsern, IntroBoatChecklistSeed } from './components/intro-boat-checklist';
 import { NewReport, NewReportConcern, NewReportProps } from './components/new-report';
 import { faceTypeAheadInputConcern, TypeAheadInputSeed } from './components/type-ahead-input';
+import { firebaseConfig } from './firebase-config';
 import { $across, $atop, toStewardOf } from './tools/stewarding';
 import { broke, to } from './tools/utils';
 
@@ -20,7 +23,9 @@ const init = { value: null, text: '', error: '' };
 const boatNameOptions = ['Lady Nataly', 'Eleonora', 'Maria Sole'];
 
 class App extends React.Component<{}, AppState> {
-
+    componentWillMount() {
+        firebase.initializeApp(firebaseConfig);
+    }
     state = to<AppState>({
         activeOption: '',
         boatName: {
@@ -82,6 +87,7 @@ class App extends React.Component<{}, AppState> {
     });
 
     render() {
+        const newReport = () => { return <NewReport {...props} />; };
         const { state: { activeOption, boatName, diversBoat, introBoat } } = this;
         const props: NewReportProps = {
             seed: {
@@ -94,7 +100,10 @@ class App extends React.Component<{}, AppState> {
                 this.setState(newState);
             },
         };
-        return <NewReport {...props} />;
+        return <Router>
+            <Route path="/" component={newReport} />
+        </Router>;
+
     }
 }
 const inAppState = toStewardOf<AppState>();
@@ -120,10 +129,4 @@ function faceAppConcern(oldState: AppState, concern: AppConcern): AppState {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-
-{/* <Router>
-            const newReport = () => { return <NewReport {...props} />;};
-            <Route path="/reports/new" component={newReport} />
-        </Router>; */}
+render(<App />, document.getElementById('root'));

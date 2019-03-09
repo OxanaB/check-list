@@ -38,6 +38,7 @@ form label {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 form input,
 form select {
@@ -49,10 +50,14 @@ form input::placeholder,
 form select::placeholder {
   font-style: italic;
 }
+form input.type-ahead {
+  flex: 1 320px;
+}
 form .type-ahead-options {
   font-style: italic;
-  font-size: 0.8em;
-  padding: 5px;
+  font-size: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
   max-height: 200px;
   overflow-y: auto;
 }

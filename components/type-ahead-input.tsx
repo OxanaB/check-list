@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { broke, matchOptions, minus } from '../tools/utils';
+import { broke, matchOptions } from '../tools/utils';
 
 
 export interface TypeAheadInputProps {
@@ -20,7 +20,7 @@ export class TypeAheadInput extends React.Component<TypeAheadInputProps> {
     render() {
         const { seed: { text, typeAheadOptions, isOptionToShow, placeholder } } = this.props;
         return <>
-            <input onChange={this.whenChanged} value={text} placeholder={placeholder} />
+            <input className="type-ahead" onChange={this.whenChanged} value={text} placeholder={placeholder} />
             {typeAheadOptions !== null && isOptionToShow ?
                 <div className="type-ahead-options">
                     {
@@ -56,26 +56,15 @@ export function faceTypeAheadInputConcern(
 ): TypeAheadInputSeed {
     switch (concern.about) {
         case 'type-ahead-input-changed': {
-            const { typeAheadOptions, matchingOptions } = oldProps;
+            const { typeAheadOptions } = oldProps;
             const { text } = concern;
-            if (matchingOptions.length === 0) {
-                const matchedOptions = matchOptions(typeAheadOptions, text);
-                return {
-                    ...oldProps,
-                    text,
-                    isOptionToShow: true,
-                    typeAheadOptions: matchedOptions,
-                };
-            } else {
-                const noPick = minus(typeAheadOptions, matchingOptions);
-                const matchedOptions = matchOptions(noPick, text);
-                return {
-                    ...oldProps,
-                    text,
-                    isOptionToShow: true,
-                    typeAheadOptions: matchedOptions,
-                };
-            }
+            const matchedOptions = matchOptions(typeAheadOptions, text);
+            return {
+                ...oldProps,
+                text,
+                isOptionToShow: true,
+                typeAheadOptions: matchedOptions,
+            };
         }
         case 'type-ahead-option-picked': {
             const text = concern.text;

@@ -37,6 +37,7 @@ form {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     input, select {
@@ -45,13 +46,17 @@ form {
         margin-left: 10px;
 
         &::placeholder {
-           font-style: italic;
+            font-style: italic;
         }
+    }
+    input.type-ahead {
+        flex: 1 320px;
     }
     .type-ahead-options {
         font-style: italic;
-        font-size: 0.8em;
-        padding: 5px;
+        font-size: 1em;
+        padding-top: 5px;
+        padding-bottom: 5px;
         max-height: 200px;
         overflow-y: auto;
     }
