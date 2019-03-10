@@ -91,7 +91,7 @@ export class Tanks extends React.Component<TanksProps> {
                             <tr><td>nitrox 12L: </td>
                                 <td>{nitrox12L.value ? nitrox12L.value : 0}</td></tr>
                             <tr><td>nitrox 15L: </td>
-                                <td>{nitrox15L.value ? nitrox12L.value : 0}</td></tr>
+                                <td>{nitrox15L.value ? nitrox15L.value : 0}</td></tr>
                         </tbody>
                     </table>
                         <button onClick={e => {
